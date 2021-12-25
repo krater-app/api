@@ -13,3 +13,9 @@ export * from './query';
 export * from './query-bus';
 
 export * from './query-handler';
+
+export * from './event-dispatcher';
+
+export * from './event-subscriber';
+
+export * from './in-memory-event-dispatcher';
