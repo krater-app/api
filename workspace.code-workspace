@@ -12,6 +12,27 @@
 		{
 			"path": ".",
 			"name": "root"
+		},
+		{
+			"path": "src/modules/following"
+		},
+		{
+			"path": "src/modules/messaging"
+		},
+		{
+			"path": "src/modules/news-feed"
+		},
+		{
+			"path": "src/modules/platform-access"
+		},
+		{
+			"path": "src/modules/post-aggregator"
+		},
+		{
+			"path": "src/modules/profile"
+		},
+		{
+			"path": "src/modules/tags"
 		}
 	],
 	"settings": {}
