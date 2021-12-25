@@ -1,0 +1,18 @@
+{
+	"folders": [
+		{
+			"path": "src/building-blocks"
+		},
+		{
+			"path": "src/database"
+		},
+		{
+			"path": "src/server"
+		},
+		{
+			"path": ".",
+			"name": "root"
+		}
+	],
+	"settings": {}
+}
