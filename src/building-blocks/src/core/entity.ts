@@ -6,7 +6,7 @@ import { AsyncFunction } from '@tools/async-function';
 
 export abstract class Entity<PropsType extends object = {}> {
   constructor(
-    protected readonly props: PropsType,
+    protected readonly props: Readonly<PropsType>,
     protected readonly id: UniqueEntityID = new UniqueEntityID(),
   ) {}
 
