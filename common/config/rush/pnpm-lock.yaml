@@ -3,14 +3,16 @@ lockfileVersion: 5.3
 specifiers:
   '@rush-temp/building-blocks': file:./projects/building-blocks.tgz
   '@rush-temp/platform-access': file:./projects/platform-access.tgz
+  '@types/dotenv': ~8.2.0
   '@types/express': ~4.17.13
   '@types/jest': ~27.0.3
+  '@types/jsonwebtoken': ~8.5.6
   '@types/node': ~16.11.12
   '@types/uuid': ~8.3.3
-  '@types/winston': ~2.4.4
   '@typescript-eslint/eslint-plugin': ~5.6.0
   '@typescript-eslint/parser': ~5.6.0
   awilix: ~6.0.0
+  dotenv: ~10.0.0
   eslint: 7.32.0
   eslint-config-airbnb-typescript: 12.3.1
   eslint-config-prettier: ~8.3.0
@@ -19,8 +21,10 @@ specifiers:
   eslint-plugin-unicorn: ~39.0.0
   husky: ~7.0.4
   jest: ~27.4.5
+  jsonwebtoken: ~8.5.1
   prettier: ~2.5.1
   pretty-quick: ~3.1.2
+  ts-jest: ~27.1.2
   tsc-alias: ~1.4.2
   typescript: ~4.5.3
   uuid: ~8.3.2
@@ -29,14 +33,16 @@ specifiers:
 dependencies:
   '@rush-temp/building-blocks': file:projects/building-blocks.tgz
   '@rush-temp/platform-access': file:projects/platform-access.tgz
+  '@types/dotenv': 8.2.0
   '@types/express': 4.17.13
   '@types/jest': 27.0.3
+  '@types/jsonwebtoken': 8.5.6
   '@types/node': 16.11.17
   '@types/uuid': 8.3.3
-  '@types/winston': 2.4.4
   '@typescript-eslint/eslint-plugin': 5.6.0_7f07f675563385d7808243d1aafb415c
   '@typescript-eslint/parser': 5.6.0_eslint@7.32.0+typescript@4.5.4
   awilix: 6.0.0
+  dotenv: 10.0.0
   eslint: 7.32.0
   eslint-config-airbnb-typescript: 12.3.1_809b613b706c2ac1a049a395c28700bd
   eslint-config-prettier: 8.3.0_eslint@7.32.0
@@ -45,8 +51,10 @@ dependencies:
   eslint-plugin-unicorn: 39.0.0_eslint@7.32.0
   husky: 7.0.4
   jest: 27.4.5
+  jsonwebtoken: 8.5.1
   prettier: 2.5.1
   pretty-quick: 3.1.3_prettier@2.5.1
+  ts-jest: 27.1.2_b65cae1b46840061996b6cc0ea16ca56
   tsc-alias: 1.4.2
   typescript: 4.5.4
   uuid: 8.3.2
@@ -724,6 +732,13 @@ packages:
       '@types/node': 16.11.17
     dev: false
 
+  /@types/dotenv/8.2.0:
+    resolution: {integrity: sha512-ylSC9GhfRH7m1EUXBXofhgx4lUWmFeQDINW5oLuS+gxWdfUeW4zJdeVTYVkexEW+e2VUvlZR2kGnGGipAWR7kw==}
+    deprecated: This is a stub types definition. dotenv provides its own type definitions, so you do not need this installed.
+    dependencies:
+      dotenv: 10.0.0
+    dev: false
+
   /@types/express-serve-static-core/4.17.27:
     resolution: {integrity: sha512-e/sVallzUTPdyOTiqi8O8pMdBBphscvI6E4JYaKlja4Lm+zh7UFSSdW5VMkRbhDtmrONqOUHOXRguPsDckzxNA==}
     dependencies:
@@ -776,6 +791,12 @@ packages:
 
   /@types/json5/0.0.29:
     resolution: {integrity: sha1-7ihweulOEdK4J7y+UnC86n8+ce4=}
+    dev: false
+
+  /@types/jsonwebtoken/8.5.6:
+    resolution: {integrity: sha512-+P3O/xC7nzVizIi5VbF34YtqSonFsdnbXBnWUCYRiKOi1f9gA4sEFvXkrGr/QVV23IbMYvcoerI7nnhDUiWXRQ==}
+    dependencies:
+      '@types/node': 16.11.17
     dev: false
 
   /@types/mime/1.3.2:
@@ -1300,6 +1321,10 @@ packages:
       node-int64: 0.4.0
     dev: false
 
+  /buffer-equal-constant-time/1.0.1:
+    resolution: {integrity: sha1-+OcRMvf/5uAaXJaXpMbz5I1cyBk=}
+    dev: false
+
   /buffer-from/1.1.2:
     resolution: {integrity: sha512-E+XQCRwSbaaiChtv6k6Dwgc+bx+Bs6vuKJHHl5kox/BaKbhiXzqQOwK4cO22yElGp2OCmjwVhT3HmxgyPGnJfQ==}
     dev: false
@@ -1619,6 +1644,17 @@ packages:
     engines: {node: '>=8'}
     dependencies:
       webidl-conversions: 5.0.0
+    dev: false
+
+  /dotenv/10.0.0:
+    resolution: {integrity: sha512-rlBi9d8jpv9Sf1klPjNfFAuWDjKLwTIJJ/VxtoTwIR6hnZxcEOQCZg2oIL3MWBYw5GpUDKOEnND7LXTbIpQ03Q==}
+    engines: {node: '>=10'}
+    dev: false
+
+  /ecdsa-sig-formatter/1.0.11:
+    resolution: {integrity: sha512-nagl3RYrbNv6kQkeJIpt6NJZy8twLB/2vtz6yN9Z4vRKHN4/QZJIEbqohALSgwKdnksuY3k5Addp5lg8sVoVcQ==}
+    dependencies:
+      safe-buffer: 5.2.1
     dev: false
 
   /electron-to-chromium/1.4.28:
@@ -3240,6 +3276,37 @@ packages:
       minimist: 1.2.5
     dev: false
 
+  /jsonwebtoken/8.5.1:
+    resolution: {integrity: sha512-XjwVfRS6jTMsqYs0EsuJ4LGxXV14zQybNd4L2r0UvbVnSF9Af8x7p5MzbJ90Ioz/9TI41/hTCvznF/loiSzn8w==}
+    engines: {node: '>=4', npm: '>=1.4.28'}
+    dependencies:
+      jws: 3.2.2
+      lodash.includes: 4.3.0
+      lodash.isboolean: 3.0.3
+      lodash.isinteger: 4.0.4
+      lodash.isnumber: 3.0.3
+      lodash.isplainobject: 4.0.6
+      lodash.isstring: 4.0.1
+      lodash.once: 4.1.1
+      ms: 2.1.3
+      semver: 5.7.1
+    dev: false
+
+  /jwa/1.4.1:
+    resolution: {integrity: sha512-qiLX/xhEEFKUAJ6FiBMbes3w9ATzyk5W7Hvzpa/SLYdxNtng+gcurvrI7TbACjIXlsJyr05/S1oUhZrc63evQA==}
+    dependencies:
+      buffer-equal-constant-time: 1.0.1
+      ecdsa-sig-formatter: 1.0.11
+      safe-buffer: 5.2.1
+    dev: false
+
+  /jws/3.2.2:
+    resolution: {integrity: sha512-YHlZCB6lMTllWDtSPHz/ZXTsi8S00usEV6v1tjq8tOUZzw7DpSDWVXjXDre6ed1w/pd495ODpHZYSdkRTsa0HA==}
+    dependencies:
+      jwa: 1.4.1
+      safe-buffer: 5.2.1
+    dev: false
+
   /kleur/3.0.3:
     resolution: {integrity: sha512-eTIzlVOSUR+JxdDFepEYcBMtZ9Qqdef+rnzWdRZuMbOywu5tO2w2N7rqjoANZ5k9vywhL6Br1VRjUIgTQx4E8w==}
     engines: {node: '>=6'}
@@ -3299,12 +3366,40 @@ packages:
       p-locate: 4.1.0
     dev: false
 
+  /lodash.includes/4.3.0:
+    resolution: {integrity: sha1-YLuYqHy5I8aMoeUTJUgzFISfVT8=}
+    dev: false
+
+  /lodash.isboolean/3.0.3:
+    resolution: {integrity: sha1-bC4XHbKiV82WgC/UOwGyDV9YcPY=}
+    dev: false
+
+  /lodash.isinteger/4.0.4:
+    resolution: {integrity: sha1-YZwK89A/iwTDH1iChAt3sRzWg0M=}
+    dev: false
+
+  /lodash.isnumber/3.0.3:
+    resolution: {integrity: sha1-POdoEMWSjQM1IwGsKHMX8RwLH/w=}
+    dev: false
+
+  /lodash.isplainobject/4.0.6:
+    resolution: {integrity: sha1-fFJqUtibRcRcxpC4gWO+BJf1UMs=}
+    dev: false
+
+  /lodash.isstring/4.0.1:
+    resolution: {integrity: sha1-1SfftUVuynzJu5XV2ur4i6VKVFE=}
+    dev: false
+
   /lodash.memoize/4.1.2:
     resolution: {integrity: sha1-vMbEmkKihA7Zl/Mj6tpezRguC/4=}
     dev: false
 
   /lodash.merge/4.6.2:
     resolution: {integrity: sha512-0KpjqXRVvrYyCsX1swR/XTK0va6VQkQM6MNo7PqW77ByjAhoARA8EfrP1N4+KlKj8YS0ZUCtRT/YUuhyYDujIQ==}
+    dev: false
+
+  /lodash.once/4.1.1:
+    resolution: {integrity: sha1-DdOXEhPHxW34gJd9UEyI+0cal6w=}
     dev: false
 
   /lodash.truncate/4.4.2:
@@ -4622,18 +4717,21 @@ packages:
     dev: false
 
   file:projects/building-blocks.tgz:
-    resolution: {integrity: sha512-piY+3k7Ak+Eea94aK0rdbTHCULpxQRNAkP4XdEL2luzaJy3L9EvFH4I90ikw9m8RSMDkGlcN/JFP9RC6ALAwaA==, tarball: file:projects/building-blocks.tgz}
+    resolution: {integrity: sha512-AJ500nUtYeHD3+DA+Hx7+QSwGvrr/YFDOAjEnUbZAma1bKS31Qwgvm7g7gW9QcbtnjbN74eTXjok43LBf6TkPg==, tarball: file:projects/building-blocks.tgz}
     name: '@rush-temp/building-blocks'
     version: 0.0.0
     dependencies:
+      '@types/dotenv': 8.2.0
       '@types/express': 4.17.13
       '@types/jest': 27.0.3
+      '@types/jsonwebtoken': 8.5.6
       '@types/node': 16.11.17
       '@types/uuid': 8.3.3
       '@types/winston': 2.4.4
       '@typescript-eslint/eslint-plugin': 5.6.0_7f07f675563385d7808243d1aafb415c
       '@typescript-eslint/parser': 5.6.0_eslint@7.32.0+typescript@4.5.4
       awilix: 6.0.0
+      dotenv: 10.0.0
       eslint: 7.32.0
       eslint-config-airbnb-typescript: 12.3.1_809b613b706c2ac1a049a395c28700bd
       eslint-config-prettier: 8.3.0_eslint@7.32.0
@@ -4642,6 +4740,7 @@ packages:
       eslint-plugin-unicorn: 39.0.0_eslint@7.32.0
       husky: 7.0.4
       jest: 27.4.5
+      jsonwebtoken: 8.5.1
       prettier: 2.5.1
       pretty-quick: 3.1.3_prettier@2.5.1
       tsc-alias: 1.4.2
@@ -4661,7 +4760,7 @@ packages:
     dev: false
 
   file:projects/platform-access.tgz:
-    resolution: {integrity: sha512-KUzWwqTQzD7hQ8arGIWx4miYj9DbB5eu5FkcTaIGmptlkdPpyy1kaeVp9k/a4b3VrnMDR6BrCuojlJ8RQ7etcQ==, tarball: file:projects/platform-access.tgz}
+    resolution: {integrity: sha512-W8+6GkrrC1zsJ96ORkKBqqpG0X+4Jp5GfNoXJghevDi2pp66ahRIn5dP2jM+OnhMZwRcszP5Ck493ZTcCYb1kQ==, tarball: file:projects/platform-access.tgz}
     name: '@rush-temp/platform-access'
     version: 0.0.0
     dependencies:
@@ -4669,6 +4768,7 @@ packages:
       '@types/node': 16.11.17
       '@typescript-eslint/eslint-plugin': 5.6.0_7f07f675563385d7808243d1aafb415c
       '@typescript-eslint/parser': 5.6.0_eslint@7.32.0+typescript@4.5.4
+      awilix: 6.0.0
       eslint: 7.32.0
       eslint-config-airbnb-typescript: 12.3.1_809b613b706c2ac1a049a395c28700bd
       eslint-config-prettier: 8.3.0_eslint@7.32.0

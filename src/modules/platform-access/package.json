@@ -14,7 +14,8 @@
   "dependencies": {
     "tsc-alias": "~1.4.2",
     "jest": "~27.4.5",
-    "@krater/building-blocks": "~1.0.0"
+    "@krater/building-blocks": "~1.0.0",
+    "awilix": "~6.0.0"
   },
   "devDependencies": {
     "@types/node": "~16.11.12",
