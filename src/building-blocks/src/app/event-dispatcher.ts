@@ -1,4 +1,4 @@
-import { UnitOfWork } from '@infrastructure/unit-of-work';
+import { UnitOfWork } from '@krater/database';
 import { AggregateRoot, DomainEvent } from '..';
 
 export interface EventDispatcher {

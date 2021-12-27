@@ -1,9 +1,9 @@
 import { Controller } from '@api/controller';
 import { EventDispatcher } from '@app/event-dispatcher';
+import { UnitOfWork } from '@krater/database';
 import { AwilixContainer } from 'awilix';
 import { Application } from 'express';
 import { DomainEvent } from '..';
-import { UnitOfWork } from './unit-of-work';
 
 export interface AppModule {
   name: string;

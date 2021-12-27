@@ -1,6 +1,6 @@
 import { AggregateRoot } from '@core/aggregate-root';
 import { DomainEvent } from '@core/domain-event';
-import { UnitOfWork } from '@infrastructure/unit-of-work';
+import { UnitOfWork } from '@krater/database';
 import { Logger } from '..';
 import { EventDispatcher } from './event-dispatcher';
 import { EventSubscriber } from './event-subscriber';
