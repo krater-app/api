@@ -13,3 +13,5 @@ export * from './errors';
 export * from './app';
 
 export * from './infrastructure';
+
+export * from './api';
