@@ -7,8 +7,18 @@ import {
   logger,
 } from '@krater/building-blocks';
 import { createQueryBuilder, KnexUnitOfWork, QueryBuilder } from '@krater/database';
-import { asClass, asValue, AwilixContainer, createContainer, InjectionMode } from 'awilix';
+import {
+  asClass,
+  asFunction,
+  asValue,
+  AwilixContainer,
+  createContainer,
+  InjectionMode,
+} from 'awilix';
 import { platformAccessModule } from '@krater/platform-access';
+import { authMiddleware } from '@api/middlewares/auth/auth.middleware';
+import { isAccountConfirmedMiddleware } from '@api/middlewares/is-account-confirmed/is-account-confirmed.middleware';
+import { RequestHandler } from 'express';
 
 export const createAppContainer = async (): Promise<AwilixContainer> => {
   const container = createContainer({
@@ -29,13 +39,21 @@ export const createAppContainer = async (): Promise<AwilixContainer> => {
     tokenProviderService: asClass(JwtTokenProviderService).singleton(),
     unitOfWork: asClass(KnexUnitOfWork).singleton(),
     logger: asValue(logger),
+    authMiddleware: asFunction(authMiddleware).scoped(),
+    isAccountConfirmedMiddleware: asFunction(isAccountConfirmedMiddleware).scoped(),
   });
 
   const queryBuilder = container.resolve<QueryBuilder>('queryBuilder');
   const resolvedLogger = container.resolve<Logger>('logger');
+  const resolvedAuthMiddleware = container.resolve<RequestHandler>('authMiddleware');
+  const resolvedIsAccountConfirmedMiddleware = container.resolve<RequestHandler>(
+    'isAccountConfirmedMiddleware',
+  );
 
   const moduleDependencies: ModuleDependencies = {
     queryBuilder,
+    authMiddleware: resolvedAuthMiddleware,
+    isAccountConfirmedMiddleware: resolvedIsAccountConfirmedMiddleware,
     logger: resolvedLogger,
   };
 

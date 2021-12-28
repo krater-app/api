@@ -2,7 +2,7 @@ import { Controller } from '@api/controller';
 import { EventDispatcher } from '@app/event-dispatcher';
 import { QueryBuilder, UnitOfWork } from '@krater/database';
 import { AwilixContainer } from 'awilix';
-import { Application } from 'express';
+import { Application, RequestHandler } from 'express';
 import { Logger } from '.';
 import { DomainEvent } from '..';
 
@@ -15,6 +15,8 @@ export interface AppModule {
 export interface ModuleDependencies {
   queryBuilder: QueryBuilder;
   logger: Logger;
+  authMiddleware: RequestHandler;
+  isAccountConfirmedMiddleware: RequestHandler;
 }
 
 export class ModuleBuilder {
