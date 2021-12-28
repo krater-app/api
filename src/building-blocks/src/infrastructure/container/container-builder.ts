@@ -1,10 +1,14 @@
 import { Controller } from '@api/controller';
 import { EventSubscriber } from '@app/event-subscriber';
 import { InMemoryEventDispatcher } from '@app/in-memory-event-dispatcher';
+import { KnexRepository } from '@krater/database';
 import { asClass, asFunction, AwilixContainer, createContainer, Lifetime, Resolver } from 'awilix';
 import { CommandHandler, InMemoryCommandBus, InMemoryQueryBus, QueryHandler } from '../..';
 import { registerAsArray } from './register-as-array';
 
+interface CustomResolution {
+  [key: string]: Resolver<any>;
+}
 export class ContainerBuilder {
   private container: AwilixContainer;
 
@@ -19,6 +23,20 @@ export class ContainerBuilder {
 
     this.container.register({
       commandHandlers: registerAsArray(commandHandlers),
+    });
+
+    return this;
+  }
+
+  public setCustom(props: CustomResolution) {
+    this.container.register(props);
+
+    return this;
+  }
+
+  public setRepositories(repositories: Resolver<KnexRepository>[]) {
+    this.container.register({
+      repositories: registerAsArray(repositories),
     });
 
     return this;
