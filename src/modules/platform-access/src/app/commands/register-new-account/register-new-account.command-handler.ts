@@ -31,12 +31,14 @@ export class RegisterNewAccountCommandHandler implements CommandHandler<Register
       'accountRegistrationRepository',
     );
 
-    const accountRegistration = await AccountRegistration.registerNew(command.payload, {
-      accountEmailCheckerService,
-      accountNicknameCheckerService,
-      passwordHashProviderService,
-    });
+    await unitOfWork.complete(async () => {
+      const accountRegistration = await AccountRegistration.registerNew(command.payload, {
+        accountEmailCheckerService,
+        accountNicknameCheckerService,
+        passwordHashProviderService,
+      });
 
-    await unitOfWork.complete(async () => repository.insert(accountRegistration));
+      await repository.insert(accountRegistration);
+    });
   }
 }

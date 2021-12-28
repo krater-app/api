@@ -1,0 +1,16 @@
+{
+  "env": {
+    "NODE_ENV": "local"
+  },
+  "ext": "js,json,ts",
+  "ignore": [
+    ".git",
+    "node_modules/**/node_modules",
+    "node_modules",
+    "src/**/*.spec.ts",
+    "src/**/domain/*"
+  ],
+  "restartable": "rs",
+  "watch": ["src/**/*.ts"],
+  "exec": "ts-node -r tsconfig-paths/register ./src/index.ts"
+}

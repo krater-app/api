@@ -456,6 +456,10 @@
       {
         "packageName": "@krater/database",
         "projectFolder": "src/database"
+      },
+      {
+        "packageName": "@krater/server",
+        "projectFolder": "src/server"
       }
   ]
 }
