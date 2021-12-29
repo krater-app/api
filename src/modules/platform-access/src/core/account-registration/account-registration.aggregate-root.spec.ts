@@ -4,9 +4,10 @@ import { PasswordHashProviderService } from '@core/account-password/password-has
 import { AccountStatusValue } from '@core/account-status/account-status.value-object';
 import { createMockProxy } from '@krater/building-blocks';
 import { AccountRegistration } from './account-registration.aggregate-root';
+import { AccountEmailConfirmedEvent } from './events/account-email-confirmed.event';
 import { NewAccountRegisteredEvent } from './events/new-account-registered.event';
 
-describe('[DOMAIN] Platform Access | Account Registration', () => {
+describe('[DOMAIN] Platform Access ==> Account Registration', () => {
   const accountEmailCheckerService = createMockProxy<AccountEmailCheckerService>();
   const accountNicknameCheckerService = createMockProxy<AccountNicknameCheckerService>();
   const passwordHashProviderService = createMockProxy<PasswordHashProviderService>();
@@ -188,5 +189,41 @@ describe('[DOMAIN] Platform Access | Account Registration', () => {
     expect(
       accountRegistration.getDomainEvents()[0] instanceof NewAccountRegisteredEvent,
     ).toBeTruthy();
+  });
+
+  describe('Email confirmation', () => {
+    test('should throw an error if email is already confirmed.', async () => {
+      const accountRegistration = AccountRegistration.fromPersistence({
+        id: '#id',
+        email: '#email',
+        emailConfirmedAt: new Date().toISOString(),
+        nickname: '#nickname',
+        passwordHash: '#password-hash',
+        registeredAt: new Date().toISOString(),
+        status: AccountStatusValue.EmailConfirmed,
+      });
+
+      expect(() => accountRegistration.confirmEmail()).toThrowError('Email is already confirmed.');
+    });
+
+    test('should confirm email and dispatch proper event.', async () => {
+      const accountRegistration = AccountRegistration.fromPersistence({
+        id: '#id',
+        email: '#email',
+        emailConfirmedAt: null,
+        nickname: '#nickname',
+        passwordHash: '#password-hash',
+        registeredAt: new Date().toISOString(),
+        status: AccountStatusValue.WaitingForEmailConfirmation,
+      });
+
+      accountRegistration.confirmEmail();
+
+      expect(accountRegistration.getStatus()).toEqual(AccountStatusValue.EmailConfirmed);
+      expect(accountRegistration.getEmailConfirmedAt()).not.toEqual(null);
+      expect(
+        accountRegistration.getDomainEvents()[0] instanceof AccountEmailConfirmedEvent,
+      ).toBeTruthy();
+    });
   });
 });

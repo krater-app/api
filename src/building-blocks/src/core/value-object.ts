@@ -4,7 +4,7 @@ import { AsyncFunction } from '@tools/async-function';
 import { BusinessRule } from './business-rule';
 
 export abstract class ValueObject<PropsType extends object = {}> {
-  constructor(public readonly props: Readonly<PropsType>) {}
+  constructor(public readonly props: PropsType) {}
 
   protected static checkRule(
     rule: BusinessRule,

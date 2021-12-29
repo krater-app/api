@@ -6,7 +6,9 @@ import { AccountPassword } from '@core/account-password/account-password.value-o
 import { PasswordHashProviderService } from '@core/account-password/password-hash-provider.service';
 import { AccountStatus } from '@core/account-status/account-status.value-object';
 import { AggregateRoot, UniqueEntityID } from '@krater/building-blocks';
+import { AccountEmailConfirmedEvent } from './events/account-email-confirmed.event';
 import { NewAccountRegisteredEvent } from './events/new-account-registered.event';
+import { EmailMustNotBeConfrimedAlreadyRule } from './rules/email-must-not-be-confirmed-already.rule';
 
 interface AccountRegistrationProps {
   email: AccountEmail;
@@ -90,6 +92,20 @@ export class AccountRegistration extends AggregateRoot<AccountRegistrationProps>
         nickname: AccountNickname.fromPersistence(nickname),
       },
       new UniqueEntityID(id),
+    );
+  }
+
+  public confirmEmail() {
+    AccountRegistration.checkRule(new EmailMustNotBeConfrimedAlreadyRule(this.props.status));
+
+    this.props.status = AccountStatus.EmailConfirmed;
+    this.props.emailConfirmedAt = new Date();
+
+    this.addDomainEvent(
+      new AccountEmailConfirmedEvent({
+        accountId: this.getId(),
+        accountEmail: this.getEmail(),
+      }),
     );
   }
 
