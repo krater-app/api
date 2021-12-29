@@ -460,6 +460,10 @@
       {
         "packageName": "@krater/server",
         "projectFolder": "src/server"
+      },
+      {
+        "packageName": "@krater/notifications",
+        "projectFolder": "src/modules/notifications"
       }
   ]
 }

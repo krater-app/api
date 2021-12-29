@@ -6,6 +6,7 @@ import { BcryptPasswordHashProviderService } from '@infrastructure/account-passw
 import { AccountRegistrationRepositoryImpl } from '@infrastructure/account-registration/account-registration.repository';
 import { ContainerBuilder } from '@krater/building-blocks';
 import { KnexUnitOfWork } from '@krater/database';
+import { MailhogMailerService } from '@krater/notifications';
 import { asClass } from 'awilix';
 
 export const platformAccessContainer = () => {
@@ -23,6 +24,7 @@ export const platformAccessContainer = () => {
     accountEmailCheckerService: asClass(AccountEmailCheckerServiceImpl).singleton(),
     accountNicknameCheckerService: asClass(AccountNicknameCheckerServiceImpl).singleton(),
     unitOfWork: asClass(KnexUnitOfWork).singleton(),
+    mailerService: asClass(MailhogMailerService).singleton(),
   });
 
   return container;

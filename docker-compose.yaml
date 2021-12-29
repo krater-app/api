@@ -22,6 +22,14 @@ services:
       - postgres
     networks:
       - data
+  mailhog:
+    container_name: mailhog
+    image: mailhog/mailhog
+    ports: 
+      - $SMTP_PORT:1025
+      - $MAILHOG_CLIENT_PORT:8025
+    networks: 
+      - data
 
 networks:
   data:

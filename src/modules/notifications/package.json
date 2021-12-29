@@ -1,10 +1,10 @@
 {
-  "name": "@krater/platform-access",
+  "name": "@krater/notifications",
   "version": "1.0.0",
   "description": "",
   "main": "dist/index.js",
   "scripts": {
-    "build": "tsc -p tsconfig.build.json && tsc-alias -p tsconfig.build.json",
+    "build": "tsc -p tsconfig.build.json && tsc-alias -p tsconfig.build.json && cp -R src/infrastructure/mailer/templates dist/infrastructure/mailer/",
     "lint": "eslint --ext .ts \"src/**/*\"",
     "format": "prettier --write \"src/**/*\"",
     "test": "jest --config ./jest.config.js",
@@ -14,13 +14,10 @@
   "dependencies": {
     "tsc-alias": "~1.4.2",
     "jest": "~27.4.5",
+    "handlebars": "~4.7.7",
+    "nodemailer": "~6.7.2",
     "@krater/building-blocks": "~1.0.0",
-    "awilix": "~6.0.0",
-    "@krater/database": "~1.0.0",
-    "express": "~4.17.2",
-    "celebrate": "~15.0.0",
-    "bcrypt": "~5.0.1",
-    "@krater/notifications": "~1.0.0"
+    "@krater/database": "~1.0.0"
   },
   "devDependencies": {
     "@types/node": "~16.11.12",
@@ -38,8 +35,8 @@
     "eslint-plugin-import": "2.24.0",
     "@types/jest": "~27.0.3",
     "ts-jest": "~27.1.2",
-    "@types/express": "~4.17.13",
-    "@types/bcrypt": "~5.0.0"
+    "@types/handlebars": "~4.1.0",
+    "@types/nodemailer": "~6.4.4"
   },
   "keywords": [],
   "author": "",
