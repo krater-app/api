@@ -2,6 +2,8 @@ import { AccountEmailCheckerService } from '@core/account-email/account-email-ch
 import { AccountNicknameCheckerService } from '@core/account-nickname/account-nickname-checker.service';
 import { PasswordHashProviderService } from '@core/account-password/password-hash-provider.service';
 import { AccountStatusValue } from '@core/account-status/account-status.value-object';
+import { EmailVerificationCodeStatusValue } from '@core/email-verification-code-status/email-verification-code-status.value-object';
+import { EmailVerificationCodeProviderService } from '@core/email-verification-code/email-verification-code-provider.service';
 import { createMockProxy } from '@krater/building-blocks';
 import { AccountRegistration } from './account-registration.aggregate-root';
 import { AccountEmailConfirmedEvent } from './events/account-email-confirmed.event';
@@ -11,11 +13,14 @@ describe('[DOMAIN] Platform Access ==> Account Registration', () => {
   const accountEmailCheckerService = createMockProxy<AccountEmailCheckerService>();
   const accountNicknameCheckerService = createMockProxy<AccountNicknameCheckerService>();
   const passwordHashProviderService = createMockProxy<PasswordHashProviderService>();
+  const emailVerificationCodeProviderService =
+    createMockProxy<EmailVerificationCodeProviderService>();
 
   beforeEach(() => {
     accountEmailCheckerService.mockClear();
     accountNicknameCheckerService.mockClear();
     passwordHashProviderService.mockClear();
+    emailVerificationCodeProviderService.mockClear();
   });
 
   describe('Account Email', () => {
@@ -31,6 +36,7 @@ describe('[DOMAIN] Platform Access ==> Account Registration', () => {
             accountEmailCheckerService,
             accountNicknameCheckerService,
             passwordHashProviderService,
+            emailVerificationCodeProviderService,
           },
         ),
       ).rejects.toThrowError('Provided email have invalid format.');
@@ -50,6 +56,7 @@ describe('[DOMAIN] Platform Access ==> Account Registration', () => {
             accountEmailCheckerService,
             accountNicknameCheckerService,
             passwordHashProviderService,
+            emailVerificationCodeProviderService,
           },
         ),
       ).rejects.toThrowError('Provided email is already taken.');
@@ -71,6 +78,7 @@ describe('[DOMAIN] Platform Access ==> Account Registration', () => {
             accountEmailCheckerService,
             accountNicknameCheckerService,
             passwordHashProviderService,
+            emailVerificationCodeProviderService,
           },
         ),
       ).rejects.toThrowError(
@@ -93,6 +101,7 @@ describe('[DOMAIN] Platform Access ==> Account Registration', () => {
             accountEmailCheckerService,
             accountNicknameCheckerService,
             passwordHashProviderService,
+            emailVerificationCodeProviderService,
           },
         ),
       ).rejects.toThrowError('Provided nickname is already taken. Please use different one.');
@@ -115,6 +124,7 @@ describe('[DOMAIN] Platform Access ==> Account Registration', () => {
             accountEmailCheckerService,
             accountNicknameCheckerService,
             passwordHashProviderService,
+            emailVerificationCodeProviderService,
           },
         ),
       ).rejects.toThrowError(
@@ -137,6 +147,7 @@ describe('[DOMAIN] Platform Access ==> Account Registration', () => {
             accountEmailCheckerService,
             accountNicknameCheckerService,
             passwordHashProviderService,
+            emailVerificationCodeProviderService,
           },
         ),
       ).rejects.toThrowError(
@@ -159,6 +170,7 @@ describe('[DOMAIN] Platform Access ==> Account Registration', () => {
             accountEmailCheckerService,
             accountNicknameCheckerService,
             passwordHashProviderService,
+            emailVerificationCodeProviderService,
           },
         ),
       ).rejects.toThrowError('Invalid password. Password can contain max of 50 characters.');
@@ -169,6 +181,7 @@ describe('[DOMAIN] Platform Access ==> Account Registration', () => {
     accountEmailCheckerService.isUnique.mockResolvedValue(true);
     accountNicknameCheckerService.isUnique.mockResolvedValue(true);
     passwordHashProviderService.hashPassword.mockResolvedValue('#hashed-password');
+    emailVerificationCodeProviderService.generateVerificationCode.mockReturnValue('123456');
 
     const accountRegistration = await AccountRegistration.registerNew(
       {
@@ -180,11 +193,13 @@ describe('[DOMAIN] Platform Access ==> Account Registration', () => {
         accountEmailCheckerService,
         accountNicknameCheckerService,
         passwordHashProviderService,
+        emailVerificationCodeProviderService,
       },
     );
 
     expect(accountRegistration.getEmail()).toEqual('account@email.com');
     expect(accountRegistration.getPasswordHash()).toEqual('#hashed-password');
+    expect(accountRegistration.getEmailVerificationCodes()[0].getCode()).toEqual('123456');
     expect(accountRegistration.getStatus()).toEqual(AccountStatusValue.WaitingForEmailConfirmation);
     expect(
       accountRegistration.getDomainEvents()[0] instanceof NewAccountRegisteredEvent,
@@ -201,11 +216,54 @@ describe('[DOMAIN] Platform Access ==> Account Registration', () => {
         passwordHash: '#password-hash',
         registeredAt: new Date().toISOString(),
         status: AccountStatusValue.EmailConfirmed,
+        verificationCodes: [],
       });
 
-      expect(() => accountRegistration.confirmEmail()).toThrowError('Email is already confirmed.');
+      expect(() => accountRegistration.confirmEmail('123456')).toThrowError(
+        'Email is already confirmed.',
+      );
     });
 
+    test('should throw error if email verification code is invalid.', async () => {
+      const accountRegistration = AccountRegistration.fromPersistence({
+        id: '#id',
+        email: '#email',
+        emailConfirmedAt: null,
+        nickname: '#nickname',
+        passwordHash: '#password-hash',
+        registeredAt: new Date().toISOString(),
+        status: AccountStatusValue.WaitingForEmailConfirmation,
+        verificationCodes: [],
+      });
+
+      expect(() => accountRegistration.confirmEmail('123456')).toThrowError(
+        'Provided email verification code is already used or is invalid for your account.',
+      );
+    });
+
+    test('should throw error if email verification code is already archived.', async () => {
+      const accountRegistration = AccountRegistration.fromPersistence({
+        id: '#id',
+        email: '#email',
+        emailConfirmedAt: null,
+        nickname: '#nickname',
+        passwordHash: '#password-hash',
+        registeredAt: new Date().toISOString(),
+        status: AccountStatusValue.WaitingForEmailConfirmation,
+        verificationCodes: [
+          {
+            code: '123456',
+            id: '#id',
+            generatedAt: new Date().toISOString(),
+            status: EmailVerificationCodeStatusValue.Archvied,
+          },
+        ],
+      });
+
+      expect(() => accountRegistration.confirmEmail('123456')).toThrowError(
+        'Provided email verification code is already used or is invalid for your account.',
+      );
+    });
     test('should confirm email and dispatch proper event.', async () => {
       const accountRegistration = AccountRegistration.fromPersistence({
         id: '#id',
@@ -215,9 +273,17 @@ describe('[DOMAIN] Platform Access ==> Account Registration', () => {
         passwordHash: '#password-hash',
         registeredAt: new Date().toISOString(),
         status: AccountStatusValue.WaitingForEmailConfirmation,
+        verificationCodes: [
+          {
+            id: '#id',
+            code: '123456',
+            generatedAt: new Date().toISOString(),
+            status: EmailVerificationCodeStatusValue.Active,
+          },
+        ],
       });
 
-      accountRegistration.confirmEmail();
+      accountRegistration.confirmEmail('123456');
 
       expect(accountRegistration.getStatus()).toEqual(AccountStatusValue.EmailConfirmed);
       expect(accountRegistration.getEmailConfirmedAt()).not.toEqual(null);

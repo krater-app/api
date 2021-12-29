@@ -15,7 +15,7 @@ export class NewAccountRegisteredSubscriber implements EventSubscriber<NewAccoun
     await this.dependencies.mailerService.sendMail({
       payload: {
         link: 'https://google.com',
-        activationCode: '12345',
+        activationCode: event.payload.emailVerificationCode,
       },
       subject: 'Welcome to Krater!',
       template: 'welcome',

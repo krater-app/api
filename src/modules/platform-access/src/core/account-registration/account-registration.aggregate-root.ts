@@ -5,10 +5,16 @@ import { AccountNickname } from '@core/account-nickname/account-nickname.value-o
 import { AccountPassword } from '@core/account-password/account-password.value-object';
 import { PasswordHashProviderService } from '@core/account-password/password-hash-provider.service';
 import { AccountStatus } from '@core/account-status/account-status.value-object';
+import { EmailVerificationCodeProviderService } from '@core/email-verification-code/email-verification-code-provider.service';
+import {
+  EmailVerificationCode,
+  PersistedEmailVerificationCode,
+} from '@core/email-verification-code/email-verification-code.entity';
 import { AggregateRoot, UniqueEntityID } from '@krater/building-blocks';
 import { AccountEmailConfirmedEvent } from './events/account-email-confirmed.event';
 import { NewAccountRegisteredEvent } from './events/new-account-registered.event';
 import { EmailMustNotBeConfrimedAlreadyRule } from './rules/email-must-not-be-confirmed-already.rule';
+import { EmailVerificationCodeMustBeValidRule } from './rules/email-verification-code-must-be-valid.rule';
 
 interface AccountRegistrationProps {
   email: AccountEmail;
@@ -17,6 +23,7 @@ interface AccountRegistrationProps {
   status: AccountStatus;
   registeredAt: Date;
   emailConfirmedAt: Date | null;
+  verificationCodes: EmailVerificationCode[];
 }
 
 interface RegisterNewAccount {
@@ -29,6 +36,7 @@ interface RegisterNewAccountDependencies {
   accountEmailCheckerService: AccountEmailCheckerService;
   accountNicknameCheckerService: AccountNicknameCheckerService;
   passwordHashProviderService: PasswordHashProviderService;
+  emailVerificationCodeProviderService: EmailVerificationCodeProviderService;
 }
 
 export interface PersistedAccountRegistration {
@@ -39,6 +47,7 @@ export interface PersistedAccountRegistration {
   status: string;
   registeredAt: string;
   emailConfirmedAt: string | null;
+  verificationCodes: PersistedEmailVerificationCode[];
 }
 
 export class AccountRegistration extends AggregateRoot<AccountRegistrationProps> {
@@ -52,6 +61,7 @@ export class AccountRegistration extends AggregateRoot<AccountRegistrationProps>
       accountEmailCheckerService,
       accountNicknameCheckerService,
       passwordHashProviderService,
+      emailVerificationCodeProviderService,
     }: RegisterNewAccountDependencies,
   ) {
     const accountRegistration = new AccountRegistration({
@@ -61,12 +71,18 @@ export class AccountRegistration extends AggregateRoot<AccountRegistrationProps>
       status: AccountStatus.WaitingForEmailConfirmation,
       registeredAt: new Date(),
       emailConfirmedAt: null,
+      verificationCodes: [],
     });
+
+    const verificationCode = EmailVerificationCode.createNew(emailVerificationCodeProviderService);
+
+    accountRegistration.props.verificationCodes.push(verificationCode);
 
     accountRegistration.addDomainEvent(
       new NewAccountRegisteredEvent({
         accountId: accountRegistration.id.value,
         accountEmail: accountRegistration.getEmail(),
+        emailVerificationCode: verificationCode.getCode(),
       }),
     );
 
@@ -81,6 +97,7 @@ export class AccountRegistration extends AggregateRoot<AccountRegistrationProps>
     registeredAt,
     email,
     passwordHash,
+    verificationCodes,
   }: PersistedAccountRegistration) {
     return new AccountRegistration(
       {
@@ -90,16 +107,36 @@ export class AccountRegistration extends AggregateRoot<AccountRegistrationProps>
         registeredAt: new Date(registeredAt),
         emailConfirmedAt: emailConfirmedAt ? new Date(emailConfirmedAt) : null,
         nickname: AccountNickname.fromPersistence(nickname),
+        verificationCodes: verificationCodes.map(EmailVerificationCode.fromPersistence),
       },
       new UniqueEntityID(id),
     );
   }
 
-  public confirmEmail() {
+  public confirmEmail(verificationCode: string) {
     AccountRegistration.checkRule(new EmailMustNotBeConfrimedAlreadyRule(this.props.status));
+    AccountRegistration.checkRule(
+      new EmailVerificationCodeMustBeValidRule(verificationCode, this.props.verificationCodes),
+    );
 
     this.props.status = AccountStatus.EmailConfirmed;
     this.props.emailConfirmedAt = new Date();
+
+    const existingVerificationCode = this.props.verificationCodes.find(
+      (code) => code.getCode() === verificationCode,
+    );
+
+    existingVerificationCode.confirm();
+
+    this.props.verificationCodes = [
+      ...this.props.verificationCodes
+        .filter((code) => code.getId() !== existingVerificationCode.getId())
+        .map((code) => {
+          code.archive();
+          return code;
+        }),
+      existingVerificationCode,
+    ];
 
     this.addDomainEvent(
       new AccountEmailConfirmedEvent({
@@ -135,5 +172,9 @@ export class AccountRegistration extends AggregateRoot<AccountRegistrationProps>
 
   public getEmailConfirmedAt() {
     return this.props.emailConfirmedAt;
+  }
+
+  public getEmailVerificationCodes(): ReadonlyArray<EmailVerificationCode> {
+    return this.props.verificationCodes;
   }
 }

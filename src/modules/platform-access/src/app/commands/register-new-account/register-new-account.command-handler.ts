@@ -5,6 +5,7 @@ import { AccountRegistration } from '@core/account-registration/account-registra
 import { AccountEmailCheckerService } from '@core/account-email/account-email-checker.service';
 import { AccountNicknameCheckerService } from '@core/account-nickname/account-nickname-checker.service';
 import { PasswordHashProviderService } from '@core/account-password/password-hash-provider.service';
+import { EmailVerificationCodeProviderService } from '@core/email-verification-code/email-verification-code-provider.service';
 import { RegisterNewAccountCommand } from './register-new-account.command';
 
 interface Dependencies {
@@ -13,6 +14,7 @@ interface Dependencies {
   accountNicknameCheckerService: AccountNicknameCheckerService;
   passwordHashProviderService: PasswordHashProviderService;
   eventDispatcher: EventDispatcher;
+  emailVerificationCodeProviderService: EmailVerificationCodeProviderService;
 }
 
 export class RegisterNewAccountCommandHandler implements CommandHandler<RegisterNewAccountCommand> {
@@ -25,6 +27,7 @@ export class RegisterNewAccountCommandHandler implements CommandHandler<Register
       accountNicknameCheckerService,
       accountEmailCheckerService,
       eventDispatcher,
+      emailVerificationCodeProviderService,
     } = this.dependencies;
 
     await unitOfWork.start();
@@ -38,6 +41,7 @@ export class RegisterNewAccountCommandHandler implements CommandHandler<Register
         accountEmailCheckerService,
         accountNicknameCheckerService,
         passwordHashProviderService,
+        emailVerificationCodeProviderService,
       });
 
       await eventDispatcher.dispatchEventsForAggregate(accountRegistration, unitOfWork);

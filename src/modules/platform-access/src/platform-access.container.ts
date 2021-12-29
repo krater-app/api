@@ -5,6 +5,7 @@ import { AccountEmailCheckerServiceImpl } from '@infrastructure/account-email/ac
 import { AccountNicknameCheckerServiceImpl } from '@infrastructure/account-nickname/account-nickname-checker.service';
 import { BcryptPasswordHashProviderService } from '@infrastructure/account-password/password-hash-provider.service';
 import { AccountRegistrationRepositoryImpl } from '@infrastructure/account-registration/account-registration.repository';
+import { EmailVerificationCodeProviderServiceImpl } from '@infrastructure/email-verification-code/email-verification-code-provider.service';
 import { ContainerBuilder } from '@krater/building-blocks';
 import { KnexOutboxRepository, KnexUnitOfWork } from '@krater/database';
 import { asClass } from 'awilix';
@@ -27,6 +28,9 @@ export const platformAccessContainer = () => {
     accountEmailCheckerService: asClass(AccountEmailCheckerServiceImpl).singleton(),
     accountNicknameCheckerService: asClass(AccountNicknameCheckerServiceImpl).singleton(),
     unitOfWork: asClass(KnexUnitOfWork).singleton(),
+    emailVerificationCodeProviderService: asClass(
+      EmailVerificationCodeProviderServiceImpl,
+    ).singleton(),
   });
 
   return container;
