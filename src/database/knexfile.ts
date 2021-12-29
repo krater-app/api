@@ -17,7 +17,10 @@ module.exports = {
     },
     migrations: {
       extension: 'ts',
-      directory: ['src/infrastructure/migrations/platform-access'],
+      directory: [
+        'src/infrastructure/migrations/platform-access',
+        'src/infrastructure/migrations/krater',
+      ],
     },
     seeds: {
       directory: ['src/infrastructure/seeds'],

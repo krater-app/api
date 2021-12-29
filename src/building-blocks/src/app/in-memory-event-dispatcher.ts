@@ -51,14 +51,14 @@ export class InMemoryEventDispatcher implements EventDispatcher {
       .map((subscriber) => {
         const eventForSubscriber = events.find((event) => event.name === subscriber.type);
 
-        return subscriber
-          .handle(eventForSubscriber, unitOfWork)
-          .catch((error) =>
-            this.dependencies.logger.error(
-              `Subscriber failed to handle event "${subscriber.type}".`,
-              error,
-            ),
+        return subscriber.handle(eventForSubscriber, unitOfWork).catch((error) => {
+          this.dependencies.logger.error(
+            `Subscriber failed to handle event "${subscriber.type}".`,
+            error,
           );
+
+          throw error;
+        });
       });
 
     if (!subscriberHandlerPromises.length) {

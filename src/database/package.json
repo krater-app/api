@@ -18,7 +18,8 @@
     "knex": "~0.95.15",
     "dotenv": "~10.0.0",
     "ts-node": "~10.4.0",
-    "pg": "~8.7.1"
+    "pg": "~8.7.1",
+    "uuid": "~8.3.2"
   },
   "devDependencies": {
     "@types/node": "~16.11.12",
@@ -35,7 +36,8 @@
     "eslint-plugin-unicorn": "~39.0.0",
     "eslint-plugin-import": "2.24.0",
     "@types/jest": "~27.0.3",
-    "ts-jest": "~27.1.2"
+    "ts-jest": "~27.1.2",
+    "@types/uuid": "~8.3.3"
   },
   "keywords": [],
   "author": "",

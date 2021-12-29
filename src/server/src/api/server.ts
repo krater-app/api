@@ -1,4 +1,4 @@
-import { QueryBuilder, UnitOfWork } from '@krater/database';
+import { QueryBuilder } from '@krater/database';
 import { AppModule, Logger, NotFoundError } from '@krater/building-blocks';
 import express, { Application } from 'express';
 import * as swaggerUI from 'swagger-ui-express';
@@ -10,7 +10,6 @@ import { errorHandlerMiddleware } from './middlewares/error-handler/error-handle
 interface Dependencies {
   queryBuilder: QueryBuilder;
   logger: Logger;
-  unitOfWork: UnitOfWork;
   modules: AppModule[];
 }
 

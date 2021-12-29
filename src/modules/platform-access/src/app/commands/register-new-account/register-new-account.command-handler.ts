@@ -1,4 +1,4 @@
-import { CommandHandler } from '@krater/building-blocks';
+import { CommandHandler, EventDispatcher } from '@krater/building-blocks';
 import { UnitOfWork } from '@krater/database';
 import { AccountRegistrationRepositoryImpl } from '@infrastructure/account-registration/account-registration.repository';
 import { AccountRegistration } from '@core/account-registration/account-registration.aggregate-root';
@@ -12,6 +12,7 @@ interface Dependencies {
   accountEmailCheckerService: AccountEmailCheckerService;
   accountNicknameCheckerService: AccountNicknameCheckerService;
   passwordHashProviderService: PasswordHashProviderService;
+  eventDispatcher: EventDispatcher;
 }
 
 export class RegisterNewAccountCommandHandler implements CommandHandler<RegisterNewAccountCommand> {
@@ -23,6 +24,7 @@ export class RegisterNewAccountCommandHandler implements CommandHandler<Register
       passwordHashProviderService,
       accountNicknameCheckerService,
       accountEmailCheckerService,
+      eventDispatcher,
     } = this.dependencies;
 
     await unitOfWork.start();
@@ -37,6 +39,8 @@ export class RegisterNewAccountCommandHandler implements CommandHandler<Register
         accountNicknameCheckerService,
         passwordHashProviderService,
       });
+
+      await eventDispatcher.dispatchEventsForAggregate(accountRegistration, unitOfWork);
 
       await repository.insert(accountRegistration);
     });

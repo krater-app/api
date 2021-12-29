@@ -8,7 +8,7 @@ export interface NewAccountRegisteredEventPayload {
 export class NewAccountRegisteredEvent implements DomainEvent<NewAccountRegisteredEventPayload> {
   name = NewAccountRegisteredEvent.name;
 
-  module = 'platform-access';
+  module = 'notifications';
 
   constructor(public readonly payload: NewAccountRegisteredEventPayload) {}
 }

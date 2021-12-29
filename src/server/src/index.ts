@@ -1,4 +1,4 @@
-import { Logger } from '@krater/building-blocks';
+import { CronJob, Logger } from '@krater/building-blocks';
 import { Application } from 'express';
 import { createAppContainer } from './container';
 
@@ -7,6 +7,10 @@ import { createAppContainer } from './container';
 
   const app = container.resolve<Application>('app');
   const logger = container.resolve<Logger>('logger');
+
+  const jobs = container.resolve<CronJob[]>('jobs');
+
+  jobs.forEach((job) => job.setupJob());
 
   app.listen(4000, () => logger.info('Server listening on http://localhost:4000'));
 })();

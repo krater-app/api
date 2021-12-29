@@ -6,7 +6,12 @@ import {
   registerAsArray,
   logger,
 } from '@krater/building-blocks';
-import { createQueryBuilder, KnexUnitOfWork, QueryBuilder } from '@krater/database';
+import {
+  createQueryBuilder,
+  KnexOutboxRepository,
+  KnexUnitOfWork,
+  QueryBuilder,
+} from '@krater/database';
 import {
   asClass,
   asFunction,
@@ -19,6 +24,8 @@ import { platformAccessModule } from '@krater/platform-access';
 import { authMiddleware } from '@api/middlewares/auth/auth.middleware';
 import { isAccountConfirmedMiddleware } from '@api/middlewares/is-account-confirmed/is-account-confirmed.middleware';
 import { RequestHandler } from 'express';
+import { ProcessOutboxJob } from '@app/jobs/process-outbox.job';
+import { notificationsModule } from '@krater/notifications';
 
 export const createAppContainer = async (): Promise<AwilixContainer> => {
   const container = createContainer({
@@ -41,6 +48,7 @@ export const createAppContainer = async (): Promise<AwilixContainer> => {
     logger: asValue(logger),
     authMiddleware: asFunction(authMiddleware).scoped(),
     isAccountConfirmedMiddleware: asFunction(isAccountConfirmedMiddleware).scoped(),
+    outboxRepository: asClass(KnexOutboxRepository).singleton(),
   });
 
   const queryBuilder = container.resolve<QueryBuilder>('queryBuilder');
@@ -59,8 +67,11 @@ export const createAppContainer = async (): Promise<AwilixContainer> => {
 
   container.register({
     modules: registerAsArray(
-      [platformAccessModule(moduleDependencies)].map((module) => asValue(module)),
+      [platformAccessModule(moduleDependencies), notificationsModule(moduleDependencies)].map(
+        (module) => asValue(module),
+      ),
     ),
+    jobs: registerAsArray([asClass(ProcessOutboxJob).singleton()]),
   });
 
   const server = container.resolve<Server>('server');

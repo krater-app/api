@@ -19,3 +19,5 @@ export * from './event-dispatcher';
 export * from './event-subscriber';
 
 export * from './in-memory-event-dispatcher';
+
+export * from './cron-job';

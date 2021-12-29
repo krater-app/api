@@ -17,7 +17,8 @@
     "handlebars": "~4.7.7",
     "nodemailer": "~6.7.2",
     "@krater/building-blocks": "~1.0.0",
-    "@krater/database": "~1.0.0"
+    "@krater/database": "~1.0.0",
+    "awilix": "~6.0.0"
   },
   "devDependencies": {
     "@types/node": "~16.11.12",

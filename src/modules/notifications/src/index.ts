@@ -1,2 +1,1 @@
-export * from './core/mailer/mailer.service';
-export * from './infrastructure/mailer/mailhog-mailer.service';
+export * from './notifications.module';
