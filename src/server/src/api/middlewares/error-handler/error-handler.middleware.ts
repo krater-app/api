@@ -16,7 +16,10 @@ export const errorHandlerMiddleware =
   (logger: Logger): ErrorRequestHandler =>
   (error, _, res, next) => {
     logger.error(`[API Error] ${error.toString()}`);
-    logger.error(`Error context:\n${JSON.stringify(res.locals, null, 2)}\n`);
+
+    if (Object.keys(res.locals).length) {
+      logger.error(`Error context:\n${JSON.stringify(res.locals, null, 2)}\n`);
+    }
 
     const errorName = error.name;
 

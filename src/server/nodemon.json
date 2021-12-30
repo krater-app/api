@@ -11,6 +11,6 @@
     "src/**/domain/*"
   ],
   "restartable": "rs",
-  "watch": ["src/**/*.ts"],
+  "watch": ["src/**/*.ts", "../modules/**/*.ts"],
   "exec": "ts-node -r tsconfig-paths/register ./src/index.ts"
 }
