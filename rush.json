@@ -468,6 +468,10 @@
       {
         "packageName": "@krater/integration-events",
         "projectFolder": "src/modules/integration-events"
+      },
+      {
+        "packageName": "@krater/tags",
+        "projectFolder": "src/modules/tags"
       }
   ]
 }
