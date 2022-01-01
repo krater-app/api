@@ -39,6 +39,9 @@
 		},
 		{
 			"path": "src/email-engine"
+		},
+		{
+			"path": "src/modules/integration-events"
 		}
 	],
 	"settings": {}

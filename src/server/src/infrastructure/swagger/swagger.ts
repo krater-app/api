@@ -10,21 +10,20 @@ export const swaggerDocs = swaggerJSDoc({
       title: 'Krater API',
       version: '1.0.0',
     },
-  },
-  components: {
-    securitySchemes: {
-      bearerAuth: {
-        type: 'apiKey',
-        in: 'header',
-        name: 'x-auth-token',
-        scheme: 'bearer',
-        bearerFormat: 'JWT',
+    components: {
+      securitySchemes: {
+        bearerAuth: {
+          type: 'apiKey',
+          in: 'header',
+          name: 'x-auth-token',
+          scheme: 'bearer',
+          bearerFormat: 'JWT',
+        },
       },
     },
     security: [
       {
         bearerAuth: [],
-        adminAuth: [],
       },
     ],
   },

@@ -15,11 +15,11 @@ export const authMiddleware =
       throw new UnauthorizedError();
     }
 
-    const { userId } = tokenProviderService.verifyAndDecodeToken<{ userId: string }>(
+    const { accountId } = tokenProviderService.verifyAndDecodeToken<{ accountId: string }>(
       token as string,
     );
 
-    res.locals.userId = userId;
+    res.locals.accountId = accountId;
 
     next();
   };

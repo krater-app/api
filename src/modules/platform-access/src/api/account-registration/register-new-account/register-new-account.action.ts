@@ -27,8 +27,6 @@ export const registerNewAccountActionValidation = celebrate(
  *   post:
  *     tags:
  *        - Plaftorm Access
- *     security:
- *       - bearerAuth: []
  *     summary:
  *       This endpoint allows to register new account on the platform.
  *     requestBody:

@@ -1,6 +1,6 @@
-import { NewAccountRegisteredEvent } from '@core/integration-events/new-account-registered.event';
 import { EventSubscriber } from '@krater/building-blocks';
 import { MailerService } from '@core/mailer/mailer.service';
+import { NewAccountRegisteredEvent } from '@krater/integration-events';
 
 interface Dependencies {
   mailerService: MailerService;

@@ -11,8 +11,11 @@ import {
   PersistedEmailVerificationCode,
 } from '@core/email-verification-code/email-verification-code.entity';
 import { AggregateRoot, UniqueEntityID } from '@krater/building-blocks';
-import { AccountEmailConfirmedEvent } from './events/account-email-confirmed.event';
-import { NewAccountRegisteredEvent } from './events/new-account-registered.event';
+import {
+  AccountEmailConfirmedEvent,
+  VerificationEmailSentAgainEvent,
+  NewAccountRegisteredEvent,
+} from '@krater/integration-events';
 import { EmailMustNotBeConfrimedAlreadyRule } from './rules/email-must-not-be-confirmed-already.rule';
 import { EmailVerificationCodeMustBeValidRule } from './rules/email-verification-code-must-be-valid.rule';
 
@@ -142,6 +145,32 @@ export class AccountRegistration extends AggregateRoot<AccountRegistrationProps>
       new AccountEmailConfirmedEvent({
         accountId: this.getId(),
         accountEmail: this.getEmail(),
+      }),
+    );
+  }
+
+  public resendEmailConfirmationLink(
+    emailVerificationCodeProviderService: EmailVerificationCodeProviderService,
+  ) {
+    AccountRegistration.checkRule(new EmailMustNotBeConfrimedAlreadyRule(this.props.status));
+
+    const newEmailVerificationCode = EmailVerificationCode.createNew(
+      emailVerificationCodeProviderService,
+    );
+
+    this.props.verificationCodes = [
+      ...this.props.verificationCodes.map((code) => {
+        code.archive();
+        return code;
+      }),
+      newEmailVerificationCode,
+    ];
+
+    this.addDomainEvent(
+      new VerificationEmailSentAgainEvent({
+        accountEmail: this.getEmail(),
+        accountId: this.getId(),
+        verificationCode: newEmailVerificationCode.getCode(),
       }),
     );
   }

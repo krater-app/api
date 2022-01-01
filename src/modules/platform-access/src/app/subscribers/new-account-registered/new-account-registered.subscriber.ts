@@ -1,6 +1,6 @@
-import { NewAccountRegisteredEvent } from '@core/account-registration/events/new-account-registered.event';
 import { EventSubscriber } from '@krater/building-blocks';
 import { KnexOutboxRepository, UnitOfWork } from '@krater/database';
+import { NewAccountRegisteredEvent } from '@krater/integration-events';
 
 export class NewAccountRegisteredSubscriber implements EventSubscriber<NewAccountRegisteredEvent> {
   public readonly type = NewAccountRegisteredEvent.name;

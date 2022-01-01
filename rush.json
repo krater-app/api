@@ -464,6 +464,10 @@
       {
         "packageName": "@krater/notifications",
         "projectFolder": "src/modules/notifications"
+      },
+      {
+        "packageName": "@krater/integration-events",
+        "projectFolder": "src/modules/integration-events"
       }
   ]
 }

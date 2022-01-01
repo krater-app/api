@@ -3,6 +3,7 @@ lockfileVersion: 5.3
 specifiers:
   '@rush-temp/building-blocks': file:./projects/building-blocks.tgz
   '@rush-temp/database': file:./projects/database.tgz
+  '@rush-temp/integration-events': file:./projects/integration-events.tgz
   '@rush-temp/notifications': file:./projects/notifications.tgz
   '@rush-temp/platform-access': file:./projects/platform-access.tgz
   '@rush-temp/server': file:./projects/server.tgz
@@ -65,6 +66,7 @@ specifiers:
 dependencies:
   '@rush-temp/building-blocks': file:projects/building-blocks.tgz_ts-node@10.4.0
   '@rush-temp/database': file:projects/database.tgz
+  '@rush-temp/integration-events': file:projects/integration-events.tgz_ts-node@10.4.0
   '@rush-temp/notifications': file:projects/notifications.tgz_ts-node@10.4.0
   '@rush-temp/platform-access': file:projects/platform-access.tgz_ts-node@10.4.0
   '@rush-temp/server': file:projects/server.tgz
@@ -6419,6 +6421,44 @@ packages:
       - utf-8-validate
     dev: false
 
+  file:projects/integration-events.tgz_ts-node@10.4.0:
+    resolution: {integrity: sha512-2KSum1Ybr7MFo4EMXam7MgWIM+aPpEZ4AkC74J1Xs7gMQGno8zMBaNvzfgpltR7vVB551zjqswoVDJITLW8z5w==, tarball: file:projects/integration-events.tgz}
+    id: file:projects/integration-events.tgz
+    name: '@rush-temp/integration-events'
+    version: 0.0.0
+    dependencies:
+      '@types/jest': 27.0.3
+      '@types/node': 16.11.17
+      '@typescript-eslint/eslint-plugin': 5.6.0_7f07f675563385d7808243d1aafb415c
+      '@typescript-eslint/parser': 5.6.0_eslint@7.32.0+typescript@4.5.4
+      eslint: 7.32.0
+      eslint-config-airbnb-typescript: 12.3.1_809b613b706c2ac1a049a395c28700bd
+      eslint-config-prettier: 8.3.0_eslint@7.32.0
+      eslint-plugin-import: 2.24.0_eslint@7.32.0
+      eslint-plugin-prettier: 4.0.0_6e6a25a49a944db0fa38418c3ba4bc86
+      eslint-plugin-unicorn: 39.0.0_eslint@7.32.0
+      husky: 7.0.4
+      jest: 27.4.5_ts-node@10.4.0
+      prettier: 2.5.1
+      pretty-quick: 3.1.3_prettier@2.5.1
+      ts-jest: 27.1.2_b65cae1b46840061996b6cc0ea16ca56
+      tsc-alias: 1.4.2
+      typescript: 4.5.4
+    transitivePeerDependencies:
+      - '@babel/core'
+      - babel-jest
+      - bufferutil
+      - canvas
+      - esbuild
+      - eslint-plugin-jsx-a11y
+      - eslint-plugin-react
+      - eslint-plugin-react-hooks
+      - node-notifier
+      - supports-color
+      - ts-node
+      - utf-8-validate
+    dev: false
+
   file:projects/notifications.tgz_ts-node@10.4.0:
     resolution: {integrity: sha512-svIBncVaaVAu+jb6TQT1KRal+72cIGJaqtrwV3zR8GvkPrH3Yi7jTLq5oniBfaNfXVjEjVLCFd0xSX035USs3g==, tarball: file:projects/notifications.tgz}
     id: file:projects/notifications.tgz
@@ -6463,7 +6503,7 @@ packages:
     dev: false
 
   file:projects/platform-access.tgz_ts-node@10.4.0:
-    resolution: {integrity: sha512-HSFLvepIX0YO3NYAFOwUGrePOfR0TiYip7FO4Fdq6u7a26CIn81wDXnFYSeB8Gn0LqlibbeZ+FCzAFPjx7E1cw==, tarball: file:projects/platform-access.tgz}
+    resolution: {integrity: sha512-vAKoxZKxjvi6uOy/jtwT6yykmDRFtw4gBwC8tC3LHtfCVoymi7+eHY9b4Pccx35y/cqTyL55QYUYihstpRMZ/w==, tarball: file:projects/platform-access.tgz}
     id: file:projects/platform-access.tgz
     name: '@rush-temp/platform-access'
     version: 0.0.0
@@ -6507,7 +6547,7 @@ packages:
     dev: false
 
   file:projects/server.tgz:
-    resolution: {integrity: sha512-3qmXLlzdCpPPok1Tl/Uj+4QZ6viQZON+N/trTTLx/VhQwaeoQaRAsKCB85FKYRpDZMW9Mmp7K7cvPUpUe7CukQ==, tarball: file:projects/server.tgz}
+    resolution: {integrity: sha512-MtWUcjZmuU3TtX9T8dL4es11lWGsorAdJe5qSkq+boAcZY7OtAKxffASoGXj9TC7OEvj9fCWYjphJmWBtRSQ9Q==, tarball: file:projects/server.tgz}
     name: '@rush-temp/server'
     version: 0.0.0
     dependencies:
