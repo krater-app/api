@@ -472,6 +472,10 @@
       {
         "packageName": "@krater/tags",
         "projectFolder": "src/modules/tags"
+      },
+      {
+        "packageName": "@krater/news-feed",
+        "projectFolder": "src/modules/news-feed"
       }
   ]
 }

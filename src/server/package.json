@@ -27,7 +27,9 @@
     "express-enforces-ssl": "~1.1.0",
     "helmet": "~4.6.0",
     "hpp": "~0.2.3",
-    "@krater/notifications": "~1.0.0"
+    "@krater/notifications": "~1.0.0",
+    "@krater/tags": "~1.0.0",
+    "@krater/news-feed": "~1.0.0"
   },
   "devDependencies": {
     "@types/node": "~16.11.12",

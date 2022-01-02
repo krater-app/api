@@ -26,6 +26,8 @@ import { isAccountConfirmedMiddleware } from '@api/middlewares/is-account-confir
 import { RequestHandler } from 'express';
 import { ProcessOutboxJob } from '@app/jobs/process-outbox.job';
 import { notificationsModule } from '@krater/notifications';
+import { tagsModule } from '@krater/tags';
+import { newsFeedModule } from '@krater/news-feed';
 
 export const createAppContainer = async (): Promise<AwilixContainer> => {
   const container = createContainer({
@@ -67,9 +69,12 @@ export const createAppContainer = async (): Promise<AwilixContainer> => {
 
   container.register({
     modules: registerAsArray(
-      [platformAccessModule(moduleDependencies), notificationsModule(moduleDependencies)].map(
-        (module) => asValue(module),
-      ),
+      [
+        platformAccessModule(moduleDependencies),
+        notificationsModule(moduleDependencies),
+        tagsModule(moduleDependencies),
+        newsFeedModule(moduleDependencies),
+      ].map((module) => asValue(module)),
     ),
     jobs: registerAsArray([asClass(ProcessOutboxJob).singleton()]),
   });
