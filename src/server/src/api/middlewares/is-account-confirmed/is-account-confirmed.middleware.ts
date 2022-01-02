@@ -8,8 +8,8 @@ interface Dependencies {
 
 export const isAccountConfirmedMiddleware =
   ({ queryBuilder }: Dependencies): RequestHandler =>
-  async (req, res, next) => {
-    if (!res.locals.userId) {
+  async (_, res, next) => {
+    if (!res.locals.accountId) {
       throw new UnauthorizedError();
     }
 
