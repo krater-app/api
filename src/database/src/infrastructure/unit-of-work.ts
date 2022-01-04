@@ -1,4 +1,9 @@
-import { KnexRepository } from './knex-repository';
+import { DatabaseTransaction } from '.';
+
+export interface UnitOfWorkRepository {
+  name: string;
+  setCurrentTransaction(transaction: DatabaseTransaction): void;
+}
 
 export interface UnitOfWork {
   start(): Promise<void>;
@@ -7,5 +12,7 @@ export interface UnitOfWork {
     job: () => Promise<ResponseType>,
   ): Promise<ResponseType>;
 
-  getRepository<RepositoryType extends KnexRepository>(repositoryName: string): RepositoryType;
+  getRepository<RepositoryType extends UnitOfWorkRepository>(
+    repositoryName: string,
+  ): RepositoryType;
 }

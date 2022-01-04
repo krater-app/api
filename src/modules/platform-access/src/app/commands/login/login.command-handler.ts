@@ -1,5 +1,5 @@
 import { PasswordHashProviderService } from '@core/account-password/password-hash-provider.service';
-import { AccountRepositoryImpl } from '@infrastructure/account/account.repository';
+import { AccountRepository } from '@core/account/account.repository';
 import { CommandHandler, TokenProviderService, UnauthorizedError } from '@krater/building-blocks';
 import { UnitOfWork } from '@krater/database';
 import { AccessTokenPayloadDTO } from '@root/dtos/access-token-payload.dto';
@@ -25,7 +25,7 @@ export class LoginCommandHandler
 
     await unitOfWork.start();
 
-    const accountRepository = unitOfWork.getRepository<AccountRepositoryImpl>('accountRepository');
+    const accountRepository = unitOfWork.getRepository<AccountRepository>('accountRepository');
 
     return unitOfWork.complete(async () => {
       const account = await accountRepository.findByEmail(command.payload.email);

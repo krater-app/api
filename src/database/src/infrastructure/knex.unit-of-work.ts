@@ -1,11 +1,11 @@
+import { UnitOfWorkRepository } from '.';
 import { DatabaseTransaction } from './database-transaction';
-import { KnexRepository } from './knex-repository';
 import { QueryBuilder } from './query-builder';
 import { UnitOfWork } from './unit-of-work';
 
 interface Dependencies {
   queryBuilder: QueryBuilder;
-  repositories: KnexRepository[];
+  repositories: UnitOfWorkRepository[];
 }
 
 export class KnexUnitOfWork implements UnitOfWork {
@@ -23,7 +23,7 @@ export class KnexUnitOfWork implements UnitOfWork {
     this.currentTransaction = await this.dependencies.queryBuilder.transaction();
   }
 
-  public getRepository<RepositoryType extends KnexRepository>(
+  public getRepository<RepositoryType extends UnitOfWorkRepository>(
     repositoryName: string,
   ): RepositoryType {
     if (this.currentTransaction === null) {

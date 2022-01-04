@@ -1,11 +1,11 @@
 import { CommandHandler, EventDispatcher } from '@krater/building-blocks';
 import { UnitOfWork } from '@krater/database';
-import { AccountRegistrationRepositoryImpl } from '@infrastructure/account-registration/account-registration.repository';
 import { AccountRegistration } from '@core/account-registration/account-registration.aggregate-root';
 import { AccountEmailCheckerService } from '@core/account-email/account-email-checker.service';
 import { AccountNicknameCheckerService } from '@core/account-nickname/account-nickname-checker.service';
 import { PasswordHashProviderService } from '@core/account-password/password-hash-provider.service';
 import { EmailVerificationCodeProviderService } from '@core/email-verification-code/email-verification-code-provider.service';
+import { AccountRegistrationRepository } from '@core/account-registration/account-registration.repository';
 import { RegisterNewAccountCommand } from './register-new-account.command';
 
 interface Dependencies {
@@ -32,7 +32,7 @@ export class RegisterNewAccountCommandHandler implements CommandHandler<Register
 
     await unitOfWork.start();
 
-    const repository = unitOfWork.getRepository<AccountRegistrationRepositoryImpl>(
+    const repository = unitOfWork.getRepository<AccountRegistrationRepository>(
       'accountRegistrationRepository',
     );
 

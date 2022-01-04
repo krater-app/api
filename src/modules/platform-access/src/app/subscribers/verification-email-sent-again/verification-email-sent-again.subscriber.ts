@@ -1,5 +1,5 @@
 import { EventSubscriber } from '@krater/building-blocks';
-import { KnexOutboxRepository, UnitOfWork } from '@krater/database';
+import { OutboxRepository, UnitOfWork } from '@krater/database';
 import { VerificationEmailSentAgainEvent } from '@krater/integration-events';
 
 export class VerificationEmailSentAgainSubscriber
@@ -11,7 +11,7 @@ export class VerificationEmailSentAgainSubscriber
     event: VerificationEmailSentAgainEvent,
     unitOfWork: UnitOfWork,
   ): Promise<void> {
-    const outboxRepository = unitOfWork.getRepository<KnexOutboxRepository>('outboxRepository');
+    const outboxRepository = unitOfWork.getRepository<OutboxRepository>('outboxRepository');
 
     await outboxRepository.insert({
       data: event.payload,

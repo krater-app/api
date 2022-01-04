@@ -1,17 +1,17 @@
 import { v4 } from 'uuid';
-import { KnexRepository, QueryBuilder } from '..';
+import { DatabaseTransaction, QueryBuilder } from '..';
 import { OutboxMessage, OutboxRepository, PersistedOutboxMessage } from './outbox.repository';
 
 interface Dependencies {
   queryBuilder: QueryBuilder;
 }
 
-export class KnexOutboxRepository extends KnexRepository implements OutboxRepository {
+export class KnexOutboxRepository implements OutboxRepository {
   public readonly name = 'outboxRepository';
 
-  constructor(private readonly dependencies: Dependencies) {
-    super();
-  }
+  private currentTransaction: DatabaseTransaction | null = null;
+
+  constructor(private readonly dependencies: Dependencies) {}
 
   public async insert(message: OutboxMessage): Promise<void> {
     await this.currentTransaction
@@ -46,5 +46,9 @@ export class KnexOutboxRepository extends KnexRepository implements OutboxReposi
       })
       .where('id', id)
       .into('krater.outbox_message');
+  }
+
+  public setCurrentTransaction(transaction: DatabaseTransaction): void {
+    this.currentTransaction = transaction;
   }
 }

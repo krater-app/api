@@ -29,9 +29,9 @@ export class ProcessOutboxJob extends CronJob {
           }),
         );
 
-      await Promise.all(promises);
-
       await outboxRepository.processMessageById(message.id);
+
+      await Promise.all(promises);
     }
   }
 }

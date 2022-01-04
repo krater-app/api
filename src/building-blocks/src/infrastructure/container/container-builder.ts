@@ -1,7 +1,7 @@
 import { Controller } from '@api/controller';
 import { EventSubscriber } from '@app/event-subscriber';
 import { InMemoryEventDispatcher } from '@app/in-memory-event-dispatcher';
-import { KnexRepository } from '@krater/database';
+import { UnitOfWorkRepository } from '@krater/database';
 import { asClass, asFunction, AwilixContainer, createContainer, Lifetime, Resolver } from 'awilix';
 import { CommandHandler, InMemoryCommandBus, InMemoryQueryBus, QueryHandler } from '../..';
 import { registerAsArray } from './register-as-array';
@@ -34,7 +34,7 @@ export class ContainerBuilder {
     return this;
   }
 
-  public setRepositories(repositories: Resolver<KnexRepository>[]) {
+  public setRepositories(repositories: Resolver<UnitOfWorkRepository>[]) {
     this.container.register({
       repositories: registerAsArray(repositories),
     });

@@ -1,4 +1,4 @@
-import { AccountRegistrationRepositoryImpl } from '@infrastructure/account-registration/account-registration.repository';
+import { AccountRegistrationRepository } from '@core/account-registration/account-registration.repository';
 import { CommandHandler, EventDispatcher, UnauthenticatedError } from '@krater/building-blocks';
 import { UnitOfWork } from '@krater/database';
 import { ConfirmEmailAddressCommand } from './confirm-email-address.command';
@@ -18,8 +18,9 @@ export class ConfirmEmailAddressCommandHandler
 
     await unitOfWork.start();
 
-    const accountRegistrationRepository =
-      unitOfWork.getRepository<AccountRegistrationRepositoryImpl>('accountRegistrationRepository');
+    const accountRegistrationRepository = unitOfWork.getRepository<AccountRegistrationRepository>(
+      'accountRegistrationRepository',
+    );
 
     await unitOfWork.complete(async () => {
       const accountRegistration = await accountRegistrationRepository.findById(

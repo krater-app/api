@@ -3,21 +3,18 @@ import { AccountRegistrationRepository } from '@core/account-registration/accoun
 import { EmailVerificationCodeStatus } from '@core/email-verification-code-status/email-verification-code-status.value-object';
 import { PersistedEmailVerificationCode } from '@core/email-verification-code/email-verification-code.entity';
 import { TableNames } from '@infrastructure/table-names';
-import { KnexRepository, QueryBuilder } from '@krater/database';
+import { DatabaseTransaction, QueryBuilder } from '@krater/database';
 
 interface Dependencies {
   queryBuilder: QueryBuilder;
 }
 
-export class AccountRegistrationRepositoryImpl
-  extends KnexRepository
-  implements AccountRegistrationRepository
-{
+export class AccountRegistrationRepositoryImpl implements AccountRegistrationRepository {
   public readonly name = 'accountRegistrationRepository';
 
-  constructor(private readonly dependencies: Dependencies) {
-    super();
-  }
+  private currentTransaction: DatabaseTransaction = null;
+
+  constructor(private readonly dependencies: Dependencies) {}
 
   public async insert(accountRegistration: AccountRegistration): Promise<void> {
     await this.currentTransaction
@@ -136,5 +133,9 @@ export class AccountRegistrationRepositoryImpl
         })
         .into(TableNames.EmailVerificationCode);
     }
+  }
+
+  public setCurrentTransaction(transaction: DatabaseTransaction): void {
+    this.currentTransaction = transaction;
   }
 }

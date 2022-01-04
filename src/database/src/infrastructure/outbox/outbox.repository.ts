@@ -1,3 +1,5 @@
+import { UnitOfWorkRepository } from '..';
+
 export interface PersistedOutboxMessage {
   id: string;
   occured_on: string;
@@ -13,7 +15,7 @@ export interface OutboxMessage {
   data: object;
 }
 
-export interface OutboxRepository {
+export interface OutboxRepository extends UnitOfWorkRepository {
   insert(message: OutboxMessage): Promise<void>;
 
   findNotProcessedMessages(): Promise<(OutboxMessage & { id: string })[]>;

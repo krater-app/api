@@ -1,5 +1,5 @@
+import { AccountRegistrationRepository } from '@core/account-registration/account-registration.repository';
 import { EmailVerificationCodeProviderService } from '@core/email-verification-code/email-verification-code-provider.service';
-import { AccountRegistrationRepositoryImpl } from '@infrastructure/account-registration/account-registration.repository';
 import { CommandHandler, EventDispatcher, UnauthenticatedError } from '@krater/building-blocks';
 import { UnitOfWork } from '@krater/database';
 import { ResendConfirmationEmailCommand } from './resend-confirmation-email.command';
@@ -20,8 +20,9 @@ export class ResendConfirmationEmailCommandHandler
 
     await unitOfWork.start();
 
-    const accountRegistrationRepository =
-      unitOfWork.getRepository<AccountRegistrationRepositoryImpl>('accountRegistrationRepository');
+    const accountRegistrationRepository = unitOfWork.getRepository<AccountRegistrationRepository>(
+      'accountRegistrationRepository',
+    );
 
     await unitOfWork.complete(async () => {
       const accountRegistration = await accountRegistrationRepository.findById(
