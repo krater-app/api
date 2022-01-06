@@ -4,7 +4,6 @@ import { ValueObject } from '@krater/building-blocks';
 export enum PostStatusValue {
   Draft = 'Draft',
   Active = 'Active',
-  Archived = 'Archived',
   Banned = 'Banned',
 }
 
@@ -23,8 +22,6 @@ export class PostStatus extends ValueObject<PostStatusProps> {
 
   public static Active = new PostStatus(PostStatusValue.Active);
 
-  public static Archived = new PostStatus(PostStatusValue.Archived);
-
   public static Banned = new PostStatus(PostStatusValue.Banned);
 
   public static fromValue(value: string) {
@@ -34,9 +31,6 @@ export class PostStatus extends ValueObject<PostStatusProps> {
 
       case PostStatusValue.Active:
         return this.Active;
-
-      case PostStatusValue.Archived:
-        return this.Archived;
 
       case PostStatusValue.Banned:
         return this.Banned;

@@ -1,4 +1,6 @@
 import { ContainerBuilder } from '@krater/building-blocks';
+import { KnexUnitOfWork } from '@krater/database';
+import { asClass } from 'awilix';
 
 export const newsFeedContainer = () => {
   return new ContainerBuilder()
@@ -8,5 +10,8 @@ export const newsFeedContainer = () => {
     .setQueryHandlers([])
     .setRepositories([])
     .setSubscribers([])
+    .setCustom({
+      unitOfWork: asClass(KnexUnitOfWork),
+    })
     .build();
 };

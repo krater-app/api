@@ -5,9 +5,8 @@ import { AccountStatusValue } from '@core/account-status/account-status.value-ob
 import { EmailVerificationCodeStatusValue } from '@core/email-verification-code-status/email-verification-code-status.value-object';
 import { EmailVerificationCodeProviderService } from '@core/email-verification-code/email-verification-code-provider.service';
 import { createMockProxy } from '@krater/building-blocks';
+import { AccountEmailConfirmedEvent, NewAccountRegisteredEvent } from '@krater/integration-events';
 import { AccountRegistration } from './account-registration.aggregate-root';
-import { AccountEmailConfirmedEvent } from './events/account-email-confirmed.event';
-import { NewAccountRegisteredEvent } from './events/new-account-registered.event';
 
 describe('[DOMAIN] Platform Access ==> Account Registration', () => {
   const accountEmailCheckerService = createMockProxy<AccountEmailCheckerService>();
