@@ -86,6 +86,7 @@ export class AccountRegistration extends AggregateRoot<AccountRegistrationProps>
         accountId: accountRegistration.id.value,
         accountEmail: accountRegistration.getEmail(),
         emailVerificationCode: verificationCode.getCode(),
+        accountNickname: accountRegistration.getNickname(),
       }),
     );
 

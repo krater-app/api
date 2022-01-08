@@ -59,4 +59,12 @@ export class KnexUnitOfWork implements UnitOfWork {
       this.currentTransaction = null;
     }
   }
+
+  public getCurrentTransaction(): DatabaseTransaction {
+    if (this.currentTransaction === null) {
+      throw new Error(`Can't get current transaction. Please use "start" method first.`);
+    }
+
+    return this.currentTransaction;
+  }
 }

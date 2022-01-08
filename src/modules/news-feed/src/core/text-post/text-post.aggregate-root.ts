@@ -115,4 +115,28 @@ export class TextPost extends AggregateRoot<TextPostProps> {
   public getStatus() {
     return this.props.status;
   }
+
+  public getTitle() {
+    return this.props.title.getValue();
+  }
+
+  public getContent() {
+    return this.props.content.getValue();
+  }
+
+  public getAuthorId() {
+    return this.props.authorId.value;
+  }
+
+  public getCreatedAt() {
+    return this.props.createdAt;
+  }
+
+  public getUpdatedAt() {
+    return this.props.updatedAt;
+  }
+
+  public isNsfw() {
+    return this.props.nsfw;
+  }
 }

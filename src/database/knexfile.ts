@@ -20,6 +20,7 @@ module.exports = {
       directory: [
         'src/infrastructure/migrations/platform-access',
         'src/infrastructure/migrations/krater',
+        'src/infrastructure/migrations/news-feed',
       ],
     },
     seeds: {

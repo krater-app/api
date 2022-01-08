@@ -3,6 +3,7 @@ import { DomainEvent } from '@krater/building-blocks';
 export interface NewAccountRegisteredEventPayload {
   accountId: string;
   accountEmail: string;
+  accountNickname: string;
   emailVerificationCode: string;
 }
 

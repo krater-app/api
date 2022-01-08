@@ -15,4 +15,6 @@ export interface UnitOfWork {
   getRepository<RepositoryType extends UnitOfWorkRepository>(
     repositoryName: string,
   ): RepositoryType;
+
+  getCurrentTransaction(): DatabaseTransaction;
 }
