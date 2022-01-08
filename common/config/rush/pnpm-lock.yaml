@@ -6450,22 +6450,25 @@ packages:
     dev: false
 
   file:projects/news-feed.tgz_ts-node@10.4.0:
-    resolution: {integrity: sha512-YmheDDSU/wg8z40CioOg5FTTHKF4cSyvfrybR3yJ/pF4lVKzRMAi49vtWFPAYYtbX0DXnS4Ux+m0M70LceKdMw==, tarball: file:projects/news-feed.tgz}
+    resolution: {integrity: sha512-VMzcY6sU6Fz1ybMVDOyVmccN+GgWoxjjuu/XsRm03SuHhkR1iJcmnjU6NWjy/2qtFLZlmSq6VjsPQvdmp5SRwQ==, tarball: file:projects/news-feed.tgz}
     id: file:projects/news-feed.tgz
     name: '@rush-temp/news-feed'
     version: 0.0.0
     dependencies:
+      '@types/express': 4.17.13
       '@types/jest': 27.0.3
       '@types/node': 16.11.17
       '@typescript-eslint/eslint-plugin': 5.6.0_7f07f675563385d7808243d1aafb415c
       '@typescript-eslint/parser': 5.6.0_eslint@7.32.0+typescript@4.5.4
       awilix: 6.0.0
+      celebrate: 15.0.0
       eslint: 7.32.0
       eslint-config-airbnb-typescript: 12.3.1_809b613b706c2ac1a049a395c28700bd
       eslint-config-prettier: 8.3.0_eslint@7.32.0
       eslint-plugin-import: 2.24.0_eslint@7.32.0
       eslint-plugin-prettier: 4.0.0_6e6a25a49a944db0fa38418c3ba4bc86
       eslint-plugin-unicorn: 39.0.0_eslint@7.32.0
+      express: 4.17.2
       husky: 7.0.4
       jest: 27.4.5_ts-node@10.4.0
       prettier: 2.5.1
@@ -6576,7 +6579,7 @@ packages:
     dev: false
 
   file:projects/server.tgz:
-    resolution: {integrity: sha512-4kTeyjUMsh8zsufRsI0rbwP/XKjSsti95Jnis/c1JnZPcm2GCDE38oY9oeaxeBBHgQ7g9bbG3M/kuht3nqb34g==, tarball: file:projects/server.tgz}
+    resolution: {integrity: sha512-40INRu4vw4iFD5zehd0xUqtTqbRxAEzKuokhuJ+t/uCBy3AcWiu2Krorx/G4OYRhvNSOVfLTHG12OwICBlW0Bg==, tarball: file:projects/server.tgz}
     name: '@rush-temp/server'
     version: 0.0.0
     dependencies:
@@ -6635,7 +6638,7 @@ packages:
     dev: false
 
   file:projects/tags.tgz_ts-node@10.4.0:
-    resolution: {integrity: sha512-YCjCEJt7KkT2Yu9S6RVjhyoAzTgr67u0KOw5I20Obp2+ueEQWirM0ft/cZ9PHaz5gnYXkS8V+CQvKCG8PiUP5g==, tarball: file:projects/tags.tgz}
+    resolution: {integrity: sha512-PMTgjI/OzFFg1mckve+EL94ONUssyDBwbYXPXNFvAXEjZEKFpR6jhaiq5wAxPIgb+vnX66LJJ7/8SQYOhg4FSA==, tarball: file:projects/tags.tgz}
     id: file:projects/tags.tgz
     name: '@rush-temp/tags'
     version: 0.0.0

@@ -2,6 +2,7 @@ import { TextPost } from '@core/text-post/text-post.aggregate-root';
 import { TextPostRepository } from '@core/text-post/text-post.repository';
 import { CommandHandler, EventDispatcher } from '@krater/building-blocks';
 import { UnitOfWork } from '@krater/database';
+import { TextPostDTO, textPostToTextPostDTO } from '@root/dtos/text-post.dto';
 import { CreateNewTextPostCommand } from './create-new-text-post.command';
 
 interface Dependencies {
@@ -9,22 +10,26 @@ interface Dependencies {
   eventDispatcher: EventDispatcher;
 }
 
-export class CreateNewTextPostCommandHandler implements CommandHandler<CreateNewTextPostCommand> {
+export class CreateNewTextPostCommandHandler
+  implements CommandHandler<CreateNewTextPostCommand, TextPostDTO>
+{
   constructor(private readonly dependencies: Dependencies) {}
 
-  public async handle(command: CreateNewTextPostCommand): Promise<void> {
+  public async handle(command: CreateNewTextPostCommand): Promise<TextPostDTO> {
     const { unitOfWork, eventDispatcher } = this.dependencies;
 
     await unitOfWork.start();
 
     const textPostRepository = unitOfWork.getRepository<TextPostRepository>('textPostRepository');
 
-    await unitOfWork.complete(async () => {
+    return unitOfWork.complete<TextPostDTO>(async () => {
       const textPost = TextPost.createNew(command.payload);
 
       await eventDispatcher.dispatchEventsForAggregate(textPost, unitOfWork);
 
       await textPostRepository.insert(textPost);
+
+      return textPostToTextPostDTO(textPost);
     });
   }
 }

@@ -1,3 +1,4 @@
+import { NewsFeedController } from '@api/news-feed/news-feed.controller';
 import { CreateNewTextPostCommandHandler } from '@app/commands/create-new-text-post/create-new-text-post.command-handler';
 import { NewAccountRegisteredSubscriber } from '@app/subscribers/new-account-registered/new-account-registered.subscriber';
 import { TextPostRepositoryImpl } from '@infrastructure/text-post/text-post.repository';
@@ -9,7 +10,7 @@ export const newsFeedContainer = () => {
   return new ContainerBuilder()
     .loadActions([`${__dirname}/**/*.action.ts`, `${__dirname}/**/*.action.js`])
     .setCommandHandlers([asClass(CreateNewTextPostCommandHandler).singleton()])
-    .setControllers([])
+    .setControllers([asClass(NewsFeedController).singleton()])
     .setQueryHandlers([])
     .setRepositories([asClass(TextPostRepositoryImpl).singleton()])
     .setSubscribers([asClass(NewAccountRegisteredSubscriber).singleton()])

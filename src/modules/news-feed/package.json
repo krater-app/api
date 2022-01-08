@@ -17,7 +17,9 @@
     "@krater/building-blocks": "~1.0.0",
     "awilix": "~6.0.0",
     "@krater/integration-events": "~1.0.0",
-    "@krater/database": "~1.0.0"
+    "@krater/database": "~1.0.0",
+    "express": "~4.17.2",
+    "celebrate": "~15.0.0"
   },
   "devDependencies": {
     "@types/node": "~16.11.12",
@@ -34,7 +36,8 @@
     "eslint-plugin-unicorn": "~39.0.0",
     "eslint-plugin-import": "2.24.0",
     "@types/jest": "~27.0.3",
-    "ts-jest": "~27.1.2"
+    "ts-jest": "~27.1.2",
+    "@types/express": "~4.17.13"
   },
   "keywords": [],
   "author": "",
