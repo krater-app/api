@@ -57,6 +57,7 @@ export class TextPost extends AggregateRoot<TextPostProps> {
       new NewTextPostCreatedEvent({
         textPostId: textPost.getId(),
         tags: textPost.getTags() as string[],
+        authorId,
       }),
     );
 

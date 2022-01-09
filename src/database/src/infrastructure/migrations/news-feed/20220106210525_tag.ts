@@ -6,6 +6,8 @@ export async function up(knex: Knex): Promise<void> {
     table.text('name').unique().notNullable();
     table.timestamp('created_at').notNullable();
     table.uuid('author_id').notNullable();
+
+    table.foreign('author_id').references('id').inTable('news_feed.post_author');
   });
 }
 

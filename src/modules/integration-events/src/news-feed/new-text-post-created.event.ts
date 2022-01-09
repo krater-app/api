@@ -3,6 +3,7 @@ import { DomainEvent } from '@krater/building-blocks';
 export interface NewTextPostCreatedEventPayload {
   textPostId: string;
   tags: string[];
+  authorId: string;
 }
 
 export class NewTextPostCreatedEvent implements DomainEvent<NewTextPostCreatedEventPayload> {
