@@ -7,10 +7,20 @@ export class NewTextPostCreatedSubscriber implements EventSubscriber<NewTextPost
   public readonly type = NewTextPostCreatedEvent.name;
 
   public async handle(event: NewTextPostCreatedEvent, unitOfWork: UnitOfWork): Promise<void> {
-    await this.insertTagIfNotExist(
+    const tagIDs = await this.insertTagIfNotExist(
       unitOfWork.getCurrentTransaction(),
       event.payload.tags,
       event.payload.authorId,
+    );
+
+    if (!tagIDs.length) {
+      return;
+    }
+
+    await this.insertTagPostRelationToDatabase(
+      unitOfWork.getCurrentTransaction(),
+      tagIDs,
+      event.payload.textPostId,
     );
   }
 
@@ -19,16 +29,19 @@ export class NewTextPostCreatedSubscriber implements EventSubscriber<NewTextPost
     tagNames: string[],
     authorId: string,
   ) {
+    let tagIDs: string[] = [];
+
     const result = await queryBuilder
-      .select('name')
-      .pluck('name')
+      .select(['name', 'id'])
       .whereIn('name', tagNames)
       .from(TableNames.Tag);
+
+    tagIDs = result.map(({ id }) => id);
 
     const createdAt = new Date().toISOString();
 
     const tagsToInsert = tagNames
-      .filter((tagName) => !result.includes(tagName))
+      .filter((tagName) => !result.map(({ name }) => name).includes(tagName))
       .map((tagName) => ({
         id: new UniqueEntityID().value,
         name: tagName,
@@ -37,9 +50,29 @@ export class NewTextPostCreatedSubscriber implements EventSubscriber<NewTextPost
       }));
 
     if (!tagsToInsert.length) {
-      return;
+      return tagIDs;
     }
 
+    tagIDs = [...tagIDs, ...tagsToInsert.map(({ id }) => id)];
+
     await queryBuilder.insert(tagsToInsert).into(TableNames.Tag);
+
+    return tagIDs;
+  }
+
+  private async insertTagPostRelationToDatabase(
+    queryBuilder: QueryBuilder,
+    tagIDs: string[],
+    postId: string,
+  ) {
+    await queryBuilder
+      .insert(
+        tagIDs.map((tagId) => ({
+          id: new UniqueEntityID().value,
+          tag_id: tagId,
+          post_id: postId,
+        })),
+      )
+      .into(TableNames.PostTag);
   }
 }

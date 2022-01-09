@@ -15,7 +15,7 @@ export class TextPostRepositoryImpl implements TextPostRepository {
         title: textPost.getTitle(),
         content: textPost.getContent(),
         author_id: textPost.getAuthorId(),
-        status: textPost.getStatus(),
+        status: textPost.getStatus().getValue(),
         created_at: textPost.getCreatedAt().toISOString(),
         updated_at: textPost.getUpdatedAt().toISOString(),
         nsfw: textPost.isNsfw(),
