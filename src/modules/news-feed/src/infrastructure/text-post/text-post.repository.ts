@@ -13,12 +13,18 @@ export class TextPostRepositoryImpl implements TextPostRepository {
       .insert({
         id: textPost.getId(),
         title: textPost.getTitle(),
-        content: textPost.getContent(),
         author_id: textPost.getAuthorId(),
         status: textPost.getStatus().getValue(),
         created_at: textPost.getCreatedAt().toISOString(),
         updated_at: textPost.getUpdatedAt().toISOString(),
         nsfw: textPost.isNsfw(),
+      })
+      .into(TableNames.Post);
+
+    await this.currentTransaction
+      .insert({
+        id: textPost.getId(),
+        content: textPost.getContent(),
       })
       .into(TableNames.TextPost);
   }
