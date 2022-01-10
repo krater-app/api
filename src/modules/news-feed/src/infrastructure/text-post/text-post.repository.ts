@@ -1,5 +1,5 @@
-import { TextPost } from '@core/text-post/text-post.aggregate-root';
-import { TextPostRepository } from '@core/text-post/text-post.repository';
+import { TextPost } from '@core/post-creation/text-post/text-post.aggregate-root';
+import { TextPostRepository } from '@core/post-creation/text-post/text-post.repository';
 import { TableNames } from '@infrastructure/table-names';
 import { DatabaseTransaction } from '@krater/database';
 

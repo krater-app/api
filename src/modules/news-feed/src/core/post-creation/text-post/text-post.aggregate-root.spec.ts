@@ -1,5 +1,5 @@
-import { PostStatus, PostStatusValue } from '@core/post-status/post-status.value-object';
-import { NewPostCreatedEvent, PostPublishedEvent } from '@krater/integration-events';
+import { PostStatus } from '@core/shared-kernel/post-status/post-status.value-object';
+import { NewPostCreatedEvent } from '@krater/integration-events';
 import { TextPost } from './text-post.aggregate-root';
 
 describe('[DOMAIN] News Feed ==> Text Post', () => {
@@ -98,57 +98,5 @@ describe('[DOMAIN] News Feed ==> Text Post', () => {
 
     expect(textPost.getDomainEvents()[0] instanceof NewPostCreatedEvent).toBeTruthy();
     expect(textPost.getStatus().equals(PostStatus.Draft)).toBeTruthy();
-  });
-
-  describe('Publish text post', () => {
-    test('should throw an error if text post is banned', () => {
-      const textPost = TextPost.fromPersistence({
-        authorId: '#author-id',
-        content: '#content',
-        title: '#title',
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
-        id: '#id',
-        nsfw: false,
-        status: PostStatusValue.Banned,
-        tags: [],
-      });
-
-      expect(() => textPost.publish()).toThrowError('This post is banned.');
-    });
-
-    test('should throw an error if text post is already published', () => {
-      const textPost = TextPost.fromPersistence({
-        authorId: '#author-id',
-        content: '#content',
-        title: '#title',
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
-        id: '#id',
-        nsfw: false,
-        status: PostStatusValue.Active,
-        tags: [],
-      });
-
-      expect(() => textPost.publish()).toThrowError('This post is already published.');
-    });
-
-    test('should public text post', () => {
-      const textPost = TextPost.fromPersistence({
-        authorId: '#author-id',
-        content: '#content',
-        title: '#title',
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
-        id: '#id',
-        nsfw: false,
-        status: PostStatusValue.Draft,
-        tags: [],
-      });
-
-      textPost.publish();
-
-      expect(textPost.getDomainEvents()[0] instanceof PostPublishedEvent).toBeTruthy();
-    });
   });
 });

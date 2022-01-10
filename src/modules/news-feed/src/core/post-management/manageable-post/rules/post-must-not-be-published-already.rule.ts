@@ -1,4 +1,4 @@
-import { PostStatus } from '@core/post-status/post-status.value-object';
+import { PostStatus } from '@core/shared-kernel/post-status/post-status.value-object';
 import { BusinessRule } from '@krater/building-blocks';
 
 export class PostMustNotBePublishedAlreadyRule implements BusinessRule {

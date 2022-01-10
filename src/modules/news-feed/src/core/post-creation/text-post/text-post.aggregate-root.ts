@@ -1,12 +1,10 @@
-import { PostStatus } from '@core/post-status/post-status.value-object';
 import { AggregateRoot, UniqueEntityID } from '@krater/building-blocks';
 import { CreateNewTextPostDTO } from '@root/dtos/create-new-text-post.dto';
-import { NewPostCreatedEvent, PostPublishedEvent } from '@krater/integration-events';
-import { PostTitle } from '@core/post-title/post-title.value-object';
-import { PostTag } from '@core/post-tag/post-tag.value-object';
-import { TextPostContent } from '@core/text-post-content/text-post-content.value-object';
-import { PostMustNotBeBannedRule } from '../rules/post-must-not-be-banned.rule';
-import { PostMustNotBePublishedAlreadyRule } from '../rules/post-must-not-be-published-already.rule';
+import { NewPostCreatedEvent } from '@krater/integration-events';
+import { PostTitle } from '@core/post-creation/post-title/post-title.value-object';
+import { PostTag } from '@core/shared-kernel/post-tag/post-tag.value-object';
+import { PostStatus } from '@core/shared-kernel/post-status/post-status.value-object';
+import { TextPostContent } from '@core/post-creation/text-post/text-post-content/text-post-content.value-object';
 import { PostCantContainMoreThanTenTagsRule } from '../rules/post-cant-contain-more-than-ten-tags.rule';
 
 interface TextPostProps {
@@ -87,21 +85,6 @@ export class TextPost extends AggregateRoot<TextPostProps> {
         updatedAt: new Date(updatedAt),
       },
       new UniqueEntityID(id),
-    );
-  }
-
-  public publish() {
-    TextPost.checkRule(new PostMustNotBeBannedRule(this.props.status));
-
-    TextPost.checkRule(new PostMustNotBePublishedAlreadyRule(this.props.status));
-
-    this.props.status = PostStatus.Active;
-
-    this.addDomainEvent(
-      new PostPublishedEvent({
-        postId: this.getId(),
-        tags: this.getTags() as string[],
-      }),
     );
   }
 

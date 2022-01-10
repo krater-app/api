@@ -1,8 +1,8 @@
-import { PostStatus } from '@core/post-status/post-status.value-object';
-import { PostTag } from '@core/post-tag/post-tag.value-object';
-import { PostTitle } from '@core/post-title/post-title.value-object';
-import { PostCantContainMoreThanTenTagsRule } from '@core/rules/post-cant-contain-more-than-ten-tags.rule';
+import { PostTag } from '@core/shared-kernel/post-tag/post-tag.value-object';
+import { PostTitle } from '@core/post-creation/post-title/post-title.value-object';
+import { PostCantContainMoreThanTenTagsRule } from '@core/post-creation/rules/post-cant-contain-more-than-ten-tags.rule';
 import { AggregateRoot, UniqueEntityID } from '@krater/building-blocks';
+import { PostStatus } from '@core/shared-kernel/post-status/post-status.value-object';
 import { NewPostCreatedEvent } from '@krater/integration-events';
 import { CreateNewLinkPostDTO } from '@root/dtos/create-new-link-post.dto';
 import { LinkPostDescription } from './link-post-description/link-post-description.value-object';

@@ -1,8 +1,8 @@
-import { PostStatus } from '@core/post-status/post-status.value-object';
+import { PostStatus } from '@core/shared-kernel/post-status/post-status.value-object';
 import { BusinessRule } from '@krater/building-blocks';
 
 export class PostMustNotBeBannedRule implements BusinessRule {
-  message = 'This post is banned.';
+  message = 'This post is already banned.';
 
   constructor(private readonly status: PostStatus) {}
 

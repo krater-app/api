@@ -1,4 +1,4 @@
-import { LinkPost } from '@core/link-post/link-post.aggregate-root';
+import { LinkPost } from '@core/post-creation/link-post/link-post.aggregate-root';
 
 export interface LinkPostDTO {
   id: string;
