@@ -1,7 +1,7 @@
 import { PostStatus } from '@core/post-status/post-status.value-object';
 import { AggregateRoot, UniqueEntityID } from '@krater/building-blocks';
 import { CreateNewTextPostDTO } from '@root/dtos/create-new-text-post.dto';
-import { NewTextPostCreatedEvent, TextPostPublishedEvent } from '@krater/integration-events';
+import { NewPostCreatedEvent, PostPublishedEvent } from '@krater/integration-events';
 import { PostTitle } from '@core/post-title/post-title.value-object';
 import { PostTag } from '@core/post-tag/post-tag.value-object';
 import { TextPostContent } from '@core/text-post-content/text-post-content.value-object';
@@ -54,8 +54,8 @@ export class TextPost extends AggregateRoot<TextPostProps> {
     });
 
     textPost.addDomainEvent(
-      new NewTextPostCreatedEvent({
-        textPostId: textPost.getId(),
+      new NewPostCreatedEvent({
+        postId: textPost.getId(),
         tags: textPost.getTags() as string[],
         authorId,
       }),
@@ -98,8 +98,8 @@ export class TextPost extends AggregateRoot<TextPostProps> {
     this.props.status = PostStatus.Active;
 
     this.addDomainEvent(
-      new TextPostPublishedEvent({
-        textPostId: this.getId(),
+      new PostPublishedEvent({
+        postId: this.getId(),
         tags: this.getTags() as string[],
       }),
     );

@@ -1,13 +1,16 @@
 import { PostStatus } from '@core/post-status/post-status.value-object';
 import { PostTag } from '@core/post-tag/post-tag.value-object';
 import { PostTitle } from '@core/post-title/post-title.value-object';
+import { PostCantContainMoreThanTenTagsRule } from '@core/rules/post-cant-contain-more-than-ten-tags.rule';
 import { AggregateRoot, UniqueEntityID } from '@krater/building-blocks';
+import { NewPostCreatedEvent } from '@krater/integration-events';
 import { CreateNewLinkPostDTO } from '@root/dtos/create-new-link-post.dto';
 import { LinkPostDescription } from './link-post-description/link-post-description.value-object';
+import { Link } from './link/link.value-object';
 
 interface LinkPostProps {
   title: PostTitle;
-  link: string;
+  link: Link;
   customImagePath: string | null;
   description: LinkPostDescription;
   authorId: UniqueEntityID;
@@ -46,20 +49,34 @@ export class LinkPost extends AggregateRoot<LinkPostProps> {
     title,
     customImagePath,
   }: CreateNewLinkPostDTO) {
+    const uniqueTags = [...new Set(tags)];
+
+    LinkPost.checkRule(new PostCantContainMoreThanTenTagsRule(uniqueTags));
+
     const date = new Date();
 
-    return new LinkPost({
+    const linkPost = new LinkPost({
       customImagePath,
-      link,
+      link: Link.createNew(link),
       authorId: new UniqueEntityID(authorId),
       createdAt: date,
       updatedAt: date,
       description: LinkPostDescription.createNew(description),
       nsfw: isNsfw,
       status: PostStatus.Draft,
-      tags: tags.map(PostTag.createNew),
+      tags: uniqueTags.map(PostTag.createNew),
       title: PostTitle.createNew(title),
     });
+
+    linkPost.addDomainEvent(
+      new NewPostCreatedEvent({
+        authorId,
+        tags: uniqueTags,
+        postId: linkPost.getId(),
+      }),
+    );
+
+    return linkPost;
   }
 
   public static fromPersistence({
@@ -71,6 +88,7 @@ export class LinkPost extends AggregateRoot<LinkPostProps> {
     description,
     title,
     authorId,
+    link,
     ...props
   }: PersistedLinkPost) {
     return new LinkPost(
@@ -83,6 +101,7 @@ export class LinkPost extends AggregateRoot<LinkPostProps> {
         tags: tags.map(PostTag.fromValue),
         title: PostTitle.fromValue(title),
         authorId: new UniqueEntityID(authorId),
+        link: Link.fromValue(link),
       },
       new UniqueEntityID(id),
     );
@@ -121,7 +140,7 @@ export class LinkPost extends AggregateRoot<LinkPostProps> {
   }
 
   public getLink() {
-    return this.props.link;
+    return this.props.link.getValue();
   }
 
   public isNsfw() {

@@ -1,3 +1,3 @@
-export * from './new-text-post-created.event';
+export * from './new-post-created.event';
 
-export * from './text-post-published.event';
+export * from './post-published.event';

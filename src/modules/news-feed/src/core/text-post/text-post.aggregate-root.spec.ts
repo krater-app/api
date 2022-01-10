@@ -1,5 +1,5 @@
 import { PostStatus, PostStatusValue } from '@core/post-status/post-status.value-object';
-import { NewTextPostCreatedEvent, TextPostPublishedEvent } from '@krater/integration-events';
+import { NewPostCreatedEvent, PostPublishedEvent } from '@krater/integration-events';
 import { TextPost } from './text-post.aggregate-root';
 
 describe('[DOMAIN] News Feed ==> Text Post', () => {
@@ -96,7 +96,7 @@ describe('[DOMAIN] News Feed ==> Text Post', () => {
       title: '#title',
     });
 
-    expect(textPost.getDomainEvents()[0] instanceof NewTextPostCreatedEvent).toBeTruthy();
+    expect(textPost.getDomainEvents()[0] instanceof NewPostCreatedEvent).toBeTruthy();
     expect(textPost.getStatus().equals(PostStatus.Draft)).toBeTruthy();
   });
 
@@ -148,7 +148,7 @@ describe('[DOMAIN] News Feed ==> Text Post', () => {
 
       textPost.publish();
 
-      expect(textPost.getDomainEvents()[0] instanceof TextPostPublishedEvent).toBeTruthy();
+      expect(textPost.getDomainEvents()[0] instanceof PostPublishedEvent).toBeTruthy();
     });
   });
 });

@@ -1,12 +1,12 @@
 import { TableNames } from '@infrastructure/table-names';
 import { EventSubscriber, UniqueEntityID } from '@krater/building-blocks';
 import { QueryBuilder, UnitOfWork } from '@krater/database';
-import { NewTextPostCreatedEvent } from '@krater/integration-events';
+import { NewPostCreatedEvent } from '@krater/integration-events';
 
-export class NewTextPostCreatedSubscriber implements EventSubscriber<NewTextPostCreatedEvent> {
-  public readonly type = NewTextPostCreatedEvent.name;
+export class NewTextPostCreatedSubscriber implements EventSubscriber<NewPostCreatedEvent> {
+  public readonly type = NewPostCreatedEvent.name;
 
-  public async handle(event: NewTextPostCreatedEvent, unitOfWork: UnitOfWork): Promise<void> {
+  public async handle(event: NewPostCreatedEvent, unitOfWork: UnitOfWork): Promise<void> {
     const tagIDs = await this.insertTagIfNotExist(
       unitOfWork.getCurrentTransaction(),
       event.payload.tags,
@@ -20,7 +20,7 @@ export class NewTextPostCreatedSubscriber implements EventSubscriber<NewTextPost
     await this.insertTagPostRelationToDatabase(
       unitOfWork.getCurrentTransaction(),
       tagIDs,
-      event.payload.textPostId,
+      event.payload.postId,
     );
   }
 
