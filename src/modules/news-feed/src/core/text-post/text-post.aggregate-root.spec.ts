@@ -48,7 +48,7 @@ describe('[DOMAIN] News Feed ==> Text Post', () => {
         ],
         title: '#',
       }),
-    ).toThrowError("Text post can't contain more than 10 tags.");
+    ).toThrowError("Post can't contain more than 10 tags.");
   });
 
   test('should check only unique tags', () => {
@@ -114,7 +114,7 @@ describe('[DOMAIN] News Feed ==> Text Post', () => {
         tags: [],
       });
 
-      expect(() => textPost.publish()).toThrowError('This text post is banned.');
+      expect(() => textPost.publish()).toThrowError('This post is banned.');
     });
 
     test('should throw an error if text post is already published', () => {
@@ -130,7 +130,7 @@ describe('[DOMAIN] News Feed ==> Text Post', () => {
         tags: [],
       });
 
-      expect(() => textPost.publish()).toThrowError('This text post is already published.');
+      expect(() => textPost.publish()).toThrowError('This post is already published.');
     });
 
     test('should public text post', () => {

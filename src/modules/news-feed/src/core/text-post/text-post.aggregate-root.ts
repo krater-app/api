@@ -5,9 +5,9 @@ import { NewTextPostCreatedEvent, TextPostPublishedEvent } from '@krater/integra
 import { PostTitle } from '@core/post-title/post-title.value-object';
 import { PostTag } from '@core/post-tag/post-tag.value-object';
 import { TextPostContent } from '@core/text-post-content/text-post-content.value-object';
-import { TextPostMustNotBeBannedRule } from './rules/text-post-must-not-be-banned.rule';
-import { TextPostMustNotBePublishedAlreadyRule } from './rules/text-post-must-not-be-published-already.rule';
-import { TextPostCantContainMoreThanTenTagsRule } from './rules/text-post-cant-contain-more-than-ten-tags.rule';
+import { PostMustNotBeBannedRule } from '../rules/post-must-not-be-banned.rule';
+import { PostMustNotBePublishedAlreadyRule } from '../rules/post-must-not-be-published-already.rule';
+import { PostCantContainMoreThanTenTagsRule } from '../rules/post-cant-contain-more-than-ten-tags.rule';
 
 interface TextPostProps {
   title: PostTitle;
@@ -40,7 +40,7 @@ export class TextPost extends AggregateRoot<TextPostProps> {
   public static createNew({ authorId, content, isNsfw, tags, title }: CreateNewTextPostDTO) {
     const uniqueTags = [...new Set(tags)];
 
-    TextPost.checkRule(new TextPostCantContainMoreThanTenTagsRule(uniqueTags));
+    TextPost.checkRule(new PostCantContainMoreThanTenTagsRule(uniqueTags));
 
     const textPost = new TextPost({
       content: TextPostContent.createNew(content),
@@ -91,9 +91,9 @@ export class TextPost extends AggregateRoot<TextPostProps> {
   }
 
   public publish() {
-    TextPost.checkRule(new TextPostMustNotBeBannedRule(this.props.status));
+    TextPost.checkRule(new PostMustNotBeBannedRule(this.props.status));
 
-    TextPost.checkRule(new TextPostMustNotBePublishedAlreadyRule(this.props.status));
+    TextPost.checkRule(new PostMustNotBePublishedAlreadyRule(this.props.status));
 
     this.props.status = PostStatus.Active;
 
