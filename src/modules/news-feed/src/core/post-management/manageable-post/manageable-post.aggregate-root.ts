@@ -35,11 +35,21 @@ export class ManageablePost extends AggregateRoot<ManageablePostProps> {
     ManageablePost.checkRule(new PostMustNotBeBannedRule(this.props.status));
     ManageablePost.checkRule(new PostMustNotBePublishedAlreadyRule(this.props.status));
 
+    this.props.status = PostStatus.Active;
+
     this.addDomainEvent(
       new PostPublishedEvent({
         postId: this.id.value,
         tags: this.props.tags.map((tag) => tag.getValue()),
       }),
     );
+  }
+
+  public getStatus() {
+    return this.props.status;
+  }
+
+  public getId() {
+    return this.id.value;
   }
 }

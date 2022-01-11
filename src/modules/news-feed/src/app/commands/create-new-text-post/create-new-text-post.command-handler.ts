@@ -1,5 +1,5 @@
-import { TextPost } from '@core/text-post/text-post.aggregate-root';
-import { TextPostRepository } from '@core/text-post/text-post.repository';
+import { TextPost } from '@core/post-creation/text-post/text-post.aggregate-root';
+import { TextPostRepository } from '@core/post-creation/text-post/text-post.repository';
 import { CommandHandler, EventDispatcher } from '@krater/building-blocks';
 import { UnitOfWork } from '@krater/database';
 import { TextPostDTO, textPostToTextPostDTO } from '@root/dtos/text-post.dto';

@@ -1,4 +1,4 @@
-import { TextPost } from '@core/text-post/text-post.aggregate-root';
+import { TextPost } from '@core/post-creation/text-post/text-post.aggregate-root';
 
 export interface TextPostDTO {
   id: string;
