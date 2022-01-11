@@ -16,7 +16,7 @@ export class ManageablePostRepositoryImpl implements ManageablePostRepository {
 
   public async findById(id: string): Promise<ManageablePost | null> {
     const result = await this.dependencies.queryBuilder
-      .select(['id', 'status'])
+      .select(['id', 'status', 'author_id AS postAuthorId'])
       .from(TableNames.Post)
       .where('id', id)
       .first();

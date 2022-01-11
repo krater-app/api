@@ -1,17 +1,20 @@
 import { PostStatus } from '@core/shared-kernel/post-status/post-status.value-object';
 import { PostTag } from '@core/shared-kernel/post-tag/post-tag.value-object';
-import { AggregateRoot, UniqueEntityID } from '@krater/building-blocks';
+import { AggregateRoot, UnauthenticatedError, UniqueEntityID } from '@krater/building-blocks';
 import { PostPublishedEvent } from '@krater/integration-events';
 import { PostMustNotBeBannedRule } from './rules/post-must-not-be-banned.rule';
 import { PostMustNotBePublishedAlreadyRule } from './rules/post-must-not-be-published-already.rule';
+import { UserMustBePostAuthorRule } from './rules/user-must-be-post-author.rule';
 
 interface ManageablePostProps {
+  postAuthorId: UniqueEntityID;
   status: PostStatus;
   tags: PostTag[];
 }
 
 export interface PersistedManageablePost {
   id: string;
+  postAuthorId: string;
   status: string;
   tags: string[];
 }
@@ -21,17 +24,22 @@ export class ManageablePost extends AggregateRoot<ManageablePostProps> {
     super(props, id);
   }
 
-  public static fromPersistence({ status, id, tags }: PersistedManageablePost) {
+  public static fromPersistence({ status, id, tags, postAuthorId }: PersistedManageablePost) {
     return new ManageablePost(
       {
         status: PostStatus.fromValue(status),
         tags: tags.map(PostTag.fromValue),
+        postAuthorId: new UniqueEntityID(postAuthorId),
       },
       new UniqueEntityID(id),
     );
   }
 
-  public publish() {
+  public publish(userId: string) {
+    ManageablePost.checkRule(
+      new UserMustBePostAuthorRule(this.props.postAuthorId, userId),
+      UnauthenticatedError,
+    );
     ManageablePost.checkRule(new PostMustNotBeBannedRule(this.props.status));
     ManageablePost.checkRule(new PostMustNotBePublishedAlreadyRule(this.props.status));
 

@@ -27,7 +27,7 @@ export class PublishPostCommandHandler implements CommandHandler<PublishPostComm
         throw new UnauthenticatedError();
       }
 
-      post.publish();
+      post.publish(command.payload.accountId);
 
       await eventDispatcher.dispatchEventsForAggregate(post, unitOfWork);
 
