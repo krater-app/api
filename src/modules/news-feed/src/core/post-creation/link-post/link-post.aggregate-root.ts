@@ -5,14 +5,14 @@ import { AggregateRoot, UniqueEntityID } from '@krater/building-blocks';
 import { PostStatus } from '@core/shared-kernel/post-status/post-status.value-object';
 import { NewPostCreatedEvent } from '@krater/integration-events';
 import { CreateNewLinkPostDTO } from '@root/dtos/create-new-link-post.dto';
-import { LinkPostDescription } from './link-post-description/link-post-description.value-object';
 import { Link } from './link/link.value-object';
+import { PostDescription } from '../post-description/post-description.value-object';
 
 interface LinkPostProps {
   title: PostTitle;
   link: Link;
   customImagePath: string | null;
-  description: LinkPostDescription;
+  description: PostDescription;
   authorId: UniqueEntityID;
   status: PostStatus;
   createdAt: Date;
@@ -61,7 +61,7 @@ export class LinkPost extends AggregateRoot<LinkPostProps> {
       authorId: new UniqueEntityID(authorId),
       createdAt: date,
       updatedAt: date,
-      description: LinkPostDescription.createNew(description),
+      description: PostDescription.createNew(description),
       nsfw: isNsfw,
       status: PostStatus.Draft,
       tags: uniqueTags.map(PostTag.createNew),
@@ -95,7 +95,7 @@ export class LinkPost extends AggregateRoot<LinkPostProps> {
       {
         ...props,
         status: PostStatus.fromValue(status),
-        description: LinkPostDescription.fromValue(description),
+        description: PostDescription.fromValue(description),
         createdAt: new Date(createdAt),
         updatedAt: new Date(updatedAt),
         tags: tags.map(PostTag.fromValue),
