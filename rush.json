@@ -476,6 +476,10 @@
       {
         "packageName": "@krater/news-feed",
         "projectFolder": "src/modules/news-feed"
+      },
+      {
+        "packageName": "@krater/storage",
+        "projectFolder": "src/storage"
       }
   ]
 }

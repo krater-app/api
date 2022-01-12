@@ -1,8 +1,8 @@
 {
-  "name": "@krater/platform-access",
+  "name": "@krater/storage",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
     "build": "tsc -p tsconfig.build.json && tsc-alias -p tsconfig.build.json",
     "lint": "eslint --ext .ts \"src/**/*\"",
@@ -14,8 +14,8 @@
   "dependencies": {
     "tsc-alias": "~1.4.2",
     "jest": "~27.4.5",
-    "@krater/building-blocks": "~1.0.0",
-    "awilix": "~6.0.0"
+    "dotenv": "~10.0.0",
+    "ts-node": "~10.4.0"
   },
   "devDependencies": {
     "@types/node": "~16.11.12",
