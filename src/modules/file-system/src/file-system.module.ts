@@ -1,15 +1,15 @@
 import { ModuleBuilder, ModuleDependencies } from '@krater/building-blocks';
 import { asValue } from 'awilix';
-import { newsFeedContainer } from './news-feed.container';
+import { fileSystemContainer } from './file-system.container';
 
-export const newsFeedModule = ({
+export const fileSystemModule = ({
   authMiddleware,
-  logger,
   isAccountConfirmedMiddleware,
+  logger,
   queryBuilder,
   storageService,
 }: ModuleDependencies) => {
-  const container = newsFeedContainer();
+  const container = fileSystemContainer();
 
   container.register({
     authMiddleware: asValue(authMiddleware),
@@ -19,5 +19,5 @@ export const newsFeedModule = ({
     storageService: asValue(storageService),
   });
 
-  return new ModuleBuilder().setName('news-feed').setContainer(container).build();
+  return new ModuleBuilder().setName('file-system').setContainer(container).build();
 };

@@ -1,8 +1,8 @@
 import { PostStatus } from '@core/shared-kernel/post-status/post-status.value-object';
 import { PostTag } from '@core/shared-kernel/post-tag/post-tag.value-object';
 import { AggregateRoot, UniqueEntityID } from '@krater/building-blocks';
-import { StorageService } from '@krater/storage';
 import { CreateNewImagePostDTO } from '@root/dtos/create-new-image-post.dto';
+import { StorageService } from '@krater/storage';
 import { PostDescription } from '../post-description/post-description.value-object';
 import { PostTitle } from '../post-title/post-title.value-object';
 import { Image, PersistedImage } from './image/image.entity';

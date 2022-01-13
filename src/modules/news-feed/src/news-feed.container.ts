@@ -27,7 +27,7 @@ export const newsFeedContainer = () => {
       asClass(NewTextPostCreatedSubscriber).singleton(),
     ])
     .setCustom({
-      unitOfWork: asClass(KnexUnitOfWork),
+      unitOfWork: asClass(KnexUnitOfWork).singleton(),
     })
     .build();
 };

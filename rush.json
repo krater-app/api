@@ -479,7 +479,11 @@
       },
       {
         "packageName": "@krater/storage",
-        "projectFolder": "src/modules/storage"
+        "projectFolder": "src/storage"
+      },
+      {
+        "packageName": "@krater/file-system",
+        "projectFolder": "src/modules/file-system"
       }
   ]
 }

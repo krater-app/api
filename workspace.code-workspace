@@ -44,7 +44,10 @@
 			"path": "src/modules/integration-events"
 		},
 		{
-			"path": "src/modules/storage"
+			"path": "src/storage"
+		},
+		{
+			"path": "src/modules/file-system"
 		}
 	],
 	"settings": {}
