@@ -1,5 +1,7 @@
 import { ImageStatus } from '@core/shared-kernel/image-status/image-status.value-object';
 import { Entity, UniqueEntityID } from '@krater/building-blocks';
+import { StorageService } from '@krater/storage';
+import { TemporaryFileMustExistInBucketRule } from './rules/temporary-file-must-exist-in-bucket.rule';
 
 interface ImageProps {
   status: ImageStatus;
@@ -15,7 +17,9 @@ export class Image extends Entity<ImageProps> {
     super(props, id);
   }
 
-  public static fromTemporaryBucket(imageId: string) {
+  public static async fromTemporaryBucket(imageId: string, storageService: StorageService) {
+    await Image.checkRule(new TemporaryFileMustExistInBucketRule(imageId, storageService));
+
     return new Image(
       {
         status: ImageStatus.Temporary,

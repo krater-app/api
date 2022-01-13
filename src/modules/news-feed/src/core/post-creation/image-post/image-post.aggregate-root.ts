@@ -1,6 +1,7 @@
 import { PostStatus } from '@core/shared-kernel/post-status/post-status.value-object';
 import { PostTag } from '@core/shared-kernel/post-tag/post-tag.value-object';
 import { AggregateRoot, UniqueEntityID } from '@krater/building-blocks';
+import { StorageService } from '@krater/storage';
 import { CreateNewImagePostDTO } from '@root/dtos/create-new-image-post.dto';
 import { PostDescription } from '../post-description/post-description.value-object';
 import { PostTitle } from '../post-title/post-title.value-object';
@@ -36,20 +37,18 @@ export class ImagePost extends AggregateRoot<ImagePostProps> {
     super(props, id);
   }
 
-  public static createNew({
-    authorId,
-    description,
-    isNsfw,
-    title,
-    images,
-    tags,
-  }: CreateNewImagePostDTO) {
+  public static async createNew(
+    { authorId, description, isNsfw, title, images, tags }: CreateNewImagePostDTO,
+    storageService: StorageService,
+  ) {
     const now = new Date();
 
     return new ImagePost({
       title: PostTitle.createNew(title),
       description: PostDescription.createNew(description),
-      images: images.map(Image.fromTemporaryBucket),
+      images: await Promise.all(
+        images.map((image) => Image.fromTemporaryBucket(image, storageService)),
+      ),
       authorId: new UniqueEntityID(authorId),
       status: PostStatus.Draft,
       createdAt: now,

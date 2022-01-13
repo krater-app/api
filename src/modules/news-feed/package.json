@@ -19,7 +19,8 @@
     "@krater/integration-events": "~1.0.0",
     "@krater/database": "~1.0.0",
     "express": "~4.17.2",
-    "celebrate": "~15.0.0"
+    "celebrate": "~15.0.0",
+    "@krater/storage": "~1.0.0"
   },
   "devDependencies": {
     "@types/node": "~16.11.12",
