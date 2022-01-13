@@ -3,6 +3,7 @@ import { EventDispatcher } from '@app/event-dispatcher';
 import { QueryBuilder, UnitOfWork } from '@krater/database';
 import { AwilixContainer } from 'awilix';
 import { Application, RequestHandler } from 'express';
+import { StorageService } from '@krater/storage';
 import { Logger } from '.';
 import { DomainEvent } from '..';
 
@@ -17,6 +18,7 @@ export interface ModuleDependencies {
   logger: Logger;
   authMiddleware: RequestHandler;
   isAccountConfirmedMiddleware: RequestHandler;
+  storageService: StorageService;
 }
 
 export class ModuleBuilder {

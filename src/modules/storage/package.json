@@ -14,8 +14,9 @@
   "dependencies": {
     "tsc-alias": "~1.4.2",
     "jest": "~27.4.5",
-    "dotenv": "~10.0.0",
-    "ts-node": "~10.4.0"
+    "dotenv": "~11.0.0",
+    "ts-node": "~10.4.0",
+    "aws-sdk": "~2.1055.0"
   },
   "devDependencies": {
     "@types/node": "~16.11.12",

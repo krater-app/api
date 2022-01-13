@@ -28,6 +28,7 @@ import { ProcessOutboxJob } from '@app/jobs/process-outbox.job';
 import { notificationsModule } from '@krater/notifications';
 import { tagsModule } from '@krater/tags';
 import { newsFeedModule } from '@krater/news-feed';
+import { AwsStorageService, StorageService } from '@krater/storage';
 
 export const createAppContainer = async (): Promise<AwilixContainer> => {
   const container = createContainer({
@@ -51,6 +52,7 @@ export const createAppContainer = async (): Promise<AwilixContainer> => {
     authMiddleware: asFunction(authMiddleware).scoped(),
     isAccountConfirmedMiddleware: asFunction(isAccountConfirmedMiddleware).scoped(),
     outboxRepository: asClass(KnexOutboxRepository).singleton(),
+    storageService: asClass(AwsStorageService).singleton(),
   });
 
   const queryBuilder = container.resolve<QueryBuilder>('queryBuilder');
@@ -59,9 +61,11 @@ export const createAppContainer = async (): Promise<AwilixContainer> => {
   const resolvedIsAccountConfirmedMiddleware = container.resolve<RequestHandler>(
     'isAccountConfirmedMiddleware',
   );
+  const storageService = container.resolve<StorageService>('storageService');
 
   const moduleDependencies: ModuleDependencies = {
     queryBuilder,
+    storageService,
     authMiddleware: resolvedAuthMiddleware,
     isAccountConfirmedMiddleware: resolvedIsAccountConfirmedMiddleware,
     logger: resolvedLogger,

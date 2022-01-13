@@ -45,6 +45,7 @@
     "jsonwebtoken": "~8.5.1",
     "dotenv": "~10.0.0",
     "@krater/database": "~1.0.0",
-    "node-schedule": "~2.1.0"
+    "node-schedule": "~2.1.0",
+    "@krater/storage": "~1.0.0"
   }
 }

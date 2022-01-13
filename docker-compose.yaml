@@ -25,11 +25,26 @@ services:
   mailhog:
     container_name: mailhog
     image: mailhog/mailhog
-    ports: 
+    ports:
       - $SMTP_PORT:1025
       - $MAILHOG_CLIENT_PORT:8025
-    networks: 
+    networks:
       - data
 
+  minio:
+    build:
+      context: ./src/storage/minio
+      dockerfile: Dockerfile
+    container_name: minio
+    ports:
+      - 9000:9000
+    environment:
+      - MINIO_ACCESS_KEY=$STORAGE_ACCESS
+      - MINIO_SECRET_KEY=$STORAGE_SECRET
+    entrypoint: sh
+    command: -c 'mkdir -p /export/$PUBLIC_BUCKET && mkdir -p /export/$PRIVATE_BUCKET
+      \ && mkdir -p /export/$TEMPORARY_BUCKET && /usr/bin/minio server --address
+      :9000 /export'
+
 networks:
-  data:
+  data: null
