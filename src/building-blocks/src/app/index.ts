@@ -21,3 +21,5 @@ export * from './event-subscriber';
 export * from './in-memory-event-dispatcher';
 
 export * from './cron-job';
+
+export * from './paginated-query';

@@ -1,5 +1,6 @@
 import { TextPost } from '@core/post-creation/text-post/text-post.aggregate-root';
 import { TextPostRepository } from '@core/post-creation/text-post/text-post.repository';
+import { PostTypeValue } from '@core/shared-kernel/post-type/post-type.value-object';
 import { TableNames } from '@infrastructure/table-names';
 import { DatabaseTransaction } from '@krater/database';
 
@@ -27,6 +28,24 @@ export class TextPostRepositoryImpl implements TextPostRepository {
         content: textPost.getContent(),
       })
       .into(TableNames.TextPost);
+
+    const [author] = await this.currentTransaction
+      .select(['nickname'])
+      .pluck('nickname')
+      .from(TableNames.PostAuthor)
+      .where('id', textPost.getAuthorId());
+
+    await this.currentTransaction
+      .insert({
+        id: textPost.getId(),
+        title: textPost.getTitle(),
+        content: textPost.getContent(),
+        type: PostTypeValue.Text,
+        tags: textPost.getTags(),
+        created_at: textPost.getCreatedAt().toISOString(),
+        created_by: author,
+      })
+      .into(TableNames.FeedItem);
   }
 
   public setCurrentTransaction(transaction: DatabaseTransaction): void {
