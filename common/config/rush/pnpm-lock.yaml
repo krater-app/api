@@ -40,6 +40,7 @@ specifiers:
   eslint-plugin-unicorn: ~39.0.0
   express: ~4.17.2
   express-enforces-ssl: ~1.1.0
+  express-fileupload: ~1.2.1
   handlebars: ~4.7.7
   helmet: ~4.6.0
   hpp: ~0.2.3
@@ -104,6 +105,7 @@ dependencies:
   eslint-plugin-unicorn: 39.0.0_eslint@7.32.0
   express: 4.17.2
   express-enforces-ssl: 1.1.0
+  express-fileupload: 1.2.1
   handlebars: 4.7.7
   helmet: 4.6.0
   hpp: 0.2.3
@@ -916,6 +918,12 @@ packages:
       '@types/node': 16.11.17
     dev: false
 
+  /@types/busboy/0.3.2:
+    resolution: {integrity: sha512-iEvdm9Z9KdSs/ozuh1Z7ZsXrOl8F4M/CLMXPZHr3QuJ4d6Bjn+HBMC5EMKpwpAo8oi8iK9GZfFoHaIMrrZgwVw==}
+    dependencies:
+      '@types/node': 16.11.17
+    dev: false
+
   /@types/connect/3.4.35:
     resolution: {integrity: sha512-cdeYyv4KWoEgpBISTxWvqYsVy444DOqehiF3fM3ne10AmJ62RSyNkUnxMJXHQWRQQX2eR94m5y1IZyDwBjV9FQ==}
     dependencies:
@@ -933,6 +941,13 @@ packages:
   /@types/express-enforces-ssl/1.1.1:
     resolution: {integrity: sha512-TGLJv2jZs5E26lAqLMmcsqPJi1F5SxEsKbqdyAyYa3sicanX29ZP/bVW+1M3q1/fshMvQhGaPxql8IV7sbTh4A==}
     dependencies:
+      '@types/express': 4.17.13
+    dev: false
+
+  /@types/express-fileupload/1.2.2:
+    resolution: {integrity: sha512-sWU1EVFfLsdAginKVrkwTRbRPnbn7dawxEFEBgaRDcpNFCUuksZtASaAKEhqwEIg6fSdeTyI6dIUGl3thhrypg==}
+    dependencies:
+      '@types/busboy': 0.3.2
       '@types/express': 4.17.13
     dev: false
 
@@ -1693,6 +1708,13 @@ packages:
     engines: {node: '>=6'}
     dev: false
 
+  /busboy/0.3.1:
+    resolution: {integrity: sha512-y7tTxhGKXcyBxRKAni+awqx8uqaJKrSFSNFSeRG5CsWNdmy2BIK+6VGWEW7TZnIO/533mtMEA4rOevQV815YJw==}
+    engines: {node: '>=4.5.0'}
+    dependencies:
+      dicer: 0.3.0
+    dev: false
+
   /bytes/3.1.1:
     resolution: {integrity: sha512-dWe4nWO/ruEOY7HkUJ5gFt1DCFV9zPRoJr8pV0/ASQermOZjtq8jMjOprC0Kd10GLN+l7xaUPvxzJFWtxGu8Fg==}
     engines: {node: '>= 0.8'}
@@ -2161,6 +2183,13 @@ packages:
   /detect-newline/3.1.0:
     resolution: {integrity: sha512-TLz+x/vEXm/Y7P7wn1EJFNLxYpUD4TgMosxY6fAVJUnJMbupHBOncxyWUG9OpTaH9EBD7uFI5LfEgmMOc54DsA==}
     engines: {node: '>=8'}
+    dev: false
+
+  /dicer/0.3.0:
+    resolution: {integrity: sha512-MdceRRWqltEG2dZqO769g27N/3PXfcKl04VhYnBlo2YhH7zPi88VebsjTKclaOyiuMaGU72hTfw3VkUitGcVCA==}
+    engines: {node: '>=4.5.0'}
+    dependencies:
+      streamsearch: 0.1.2
     dev: false
 
   /diff-sequences/27.4.0:
@@ -2708,6 +2737,13 @@ packages:
 
   /express-enforces-ssl/1.1.0:
     resolution: {integrity: sha1-zynGphxb3YAuLH7SZaSpjnSH0aw=}
+    dev: false
+
+  /express-fileupload/1.2.1:
+    resolution: {integrity: sha512-fWPNAkBj+Azt9Itmcz/Reqdg3LeBfaXptDEev2JM8bCC0yDptglCnlizhf0YZauyU5X/g6v7v4Xxqhg8tmEfEA==}
+    engines: {node: '>=8.0.0'}
+    dependencies:
+      busboy: 0.3.1
     dev: false
 
   /express/4.17.2:
@@ -5583,6 +5619,11 @@ packages:
     engines: {node: '>= 0.6'}
     dev: false
 
+  /streamsearch/0.1.2:
+    resolution: {integrity: sha1-gIudDlb8Jz2Am6VzOOkpkZoanxo=}
+    engines: {node: '>=0.8.0'}
+    dev: false
+
   /string-length/4.0.2:
     resolution: {integrity: sha512-+l6rNN5fYHNhZZy41RXsYptCjA2Igmq4EG7kZAYFQI1E1VTXarr6ZPXBg6eq7Y6eK4FEhY6AJlyuFIb/v/S0VQ==}
     engines: {node: '>=10'}
@@ -6505,12 +6546,13 @@ packages:
     dev: false
 
   file:projects/file-system.tgz_ts-node@10.4.0:
-    resolution: {integrity: sha512-3eTh/Wy/K9AmW+0jMwwvWfSzINgqg3xqcGeE7ofSeQf60b8PnsI7T2RtKjmz/c26y88xE+OFZVg6qWppTpewVA==, tarball: file:projects/file-system.tgz}
+    resolution: {integrity: sha512-AjbtSoDEMKR2TAmkaoiG4NIgxJiPZsV7L7CiQ2ZUXJK2iL69TYaSNR96hjGQns53yQwmUKh/X0QnK45zcnDbyQ==, tarball: file:projects/file-system.tgz}
     id: file:projects/file-system.tgz
     name: '@rush-temp/file-system'
     version: 0.0.0
     dependencies:
       '@types/express': 4.17.13
+      '@types/express-fileupload': 1.2.2
       '@types/jest': 27.0.3
       '@types/node': 16.11.17
       '@typescript-eslint/eslint-plugin': 5.6.0_7f07f675563385d7808243d1aafb415c
@@ -6524,6 +6566,7 @@ packages:
       eslint-plugin-prettier: 4.0.0_6e6a25a49a944db0fa38418c3ba4bc86
       eslint-plugin-unicorn: 39.0.0_eslint@7.32.0
       express: 4.17.2
+      express-fileupload: 1.2.1
       husky: 7.0.4
       jest: 27.4.5_ts-node@10.4.0
       prettier: 2.5.1
@@ -6714,7 +6757,7 @@ packages:
     dev: false
 
   file:projects/server.tgz:
-    resolution: {integrity: sha512-FQIGloZLhhAIr1XpnIYdtViFXwBzwtBFkc3QE5uj0KTcOOtbttOARhWAh1nnfsyFtV0pryAlJYKxYJ/yfshtqw==, tarball: file:projects/server.tgz}
+    resolution: {integrity: sha512-dapnZXG4L169qyrIKXY528moFNs7MnsJJSi0PYQbHKKsTdRVzCmfevrp2Ehf0D4dXVnWwgDhHfxHpkga72FPkA==, tarball: file:projects/server.tgz}
     name: '@rush-temp/server'
     version: 0.0.0
     dependencies:

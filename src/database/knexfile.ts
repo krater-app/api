@@ -21,6 +21,7 @@ module.exports = {
         'src/infrastructure/migrations/platform-access',
         'src/infrastructure/migrations/krater',
         'src/infrastructure/migrations/news-feed',
+        'src/infrastructure/migrations/file-system',
       ],
     },
     seeds: {

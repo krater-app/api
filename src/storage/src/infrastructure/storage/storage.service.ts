@@ -46,4 +46,28 @@ export class AwsStorageService implements StorageService {
         throw new Error(`Could not check if file ${fileName} exists`);
       });
   }
+
+  public getPrivateFileUrl(fileName: string): string {
+    return this.s3.getSignedUrl('getObject', {
+      Bucket: process.env.PRIVATE_BUCKET,
+      Key: fileName,
+      Expires: 3600,
+    });
+  }
+
+  public getTemporaryFileUrl(fileName: string): string {
+    return this.s3.getSignedUrl('getObject', {
+      Bucket: process.env.TEMPORARY_BUCKET,
+      Key: fileName,
+      Expires: 3600,
+    });
+  }
+
+  public getPublicFileUrl(fileName: string): string {
+    return this.s3.getSignedUrl('getObject', {
+      Bucket: process.env.PUBLIC_BUCKET,
+      Key: fileName,
+      Expires: 86400,
+    });
+  }
 }
