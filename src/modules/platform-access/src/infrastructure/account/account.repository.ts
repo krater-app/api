@@ -26,5 +26,19 @@ export class AccountRepositoryImpl implements AccountRepository {
     return result ? Account.fromPersistence(result) : null;
   }
 
+  public async findByNickname(nickname: string): Promise<Account | null> {
+    const result = await this.dependencies.queryBuilder
+      .select<PersistedAccount>({
+        id: 'id',
+        passwordHash: 'password_hash',
+        status: 'status',
+      })
+      .from(TableNames.Account)
+      .where('nickname', nickname)
+      .first();
+
+    return result ? Account.fromPersistence(result) : null;
+  }
+
   public setCurrentTransaction(): void {}
 }

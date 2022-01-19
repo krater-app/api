@@ -1,3 +1,4 @@
+import { PostStatusValue } from '@core/shared-kernel/post-status/post-status.value-object';
 import { TableNames } from '@infrastructure/table-names';
 import { QueryHandler, PaginatedResponse } from '@krater/building-blocks';
 import { QueryBuilder, paginationToKnex } from '@krater/database';
@@ -19,28 +20,44 @@ export class GetFeedQueryHandler
     const { start, limit } = paginationToKnex(query.payload.page, query.payload.limit);
 
     const total = await this.dependencies.queryBuilder
-      .count('id')
-      .from(TableNames.FeedItem)
+      .count('feedItem.id')
+      .join(
+        {
+          post: TableNames.Post,
+        },
+        'post.id',
+        'feedItem.id',
+      )
+      .where('post.status', PostStatusValue.Active)
+      .from({ feedItem: TableNames.FeedItem })
       .first();
 
     const result = await this.dependencies.queryBuilder
       .select([
-        'id',
-        'title',
-        'content',
-        'description',
-        'image_path AS imagePath',
-        'likes',
-        'comments',
-        'type',
-        'created_by AS createdBy',
-        'created_at AS createdAt',
-        'tags',
+        'feedItem.id',
+        'feedItem.title',
+        'feedItem.content',
+        'feedItem.description',
+        'feedItem.image_path AS imagePath',
+        'feedItem.likes',
+        'feedItem.comments',
+        'feedItem.type',
+        'feedItem.created_by AS createdBy',
+        'feedItem.created_at AS createdAt',
+        'feedItem.tags',
       ])
       .offset(start)
       .limit(limit)
-      .orderBy('created_at', 'desc')
-      .from(TableNames.FeedItem);
+      .orderBy('feedItem.created_at', 'desc')
+      .join(
+        {
+          post: TableNames.Post,
+        },
+        'post.id',
+        'feedItem.id',
+      )
+      .where('post.status', PostStatusValue.Active)
+      .from({ feedItem: TableNames.FeedItem });
 
     return {
       items: result.map((post) => ({

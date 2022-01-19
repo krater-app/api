@@ -28,7 +28,7 @@ export class LoginCommandHandler
     const accountRepository = unitOfWork.getRepository<AccountRepository>('accountRepository');
 
     return unitOfWork.complete(async () => {
-      const account = await accountRepository.findByEmail(command.payload.email);
+      const account = await accountRepository.findByNickname(command.payload.nickname);
 
       if (!account) {
         throw new UnauthorizedError();

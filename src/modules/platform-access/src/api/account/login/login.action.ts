@@ -10,7 +10,7 @@ interface Dependencies {
 export const loginActionValidation = celebrate(
   {
     [Segments.BODY]: Joi.object().keys({
-      email: Joi.string().required(),
+      nickname: Joi.string().required(),
       password: Joi.string().required(),
     }),
   },
@@ -34,11 +34,10 @@ export const loginActionValidation = celebrate(
  *          schema:
  *            type: object
  *            properties:
- *              email:
+ *              nickname:
  *                type: string
- *                format: email
  *                required: true
- *                example: john@gmail.com
+ *                example: Johnny21
  *              password:
  *                type: string
  *                required: true
