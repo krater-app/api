@@ -14,6 +14,6 @@ export const fileSystemContainer = () =>
     .setRepositories([asClass(FileRepositoryImpl).singleton()])
     .setSubscribers([])
     .setCustom({
-      unitOfWork: asClass(KnexUnitOfWork).singleton(),
+      unitOfWork: asClass(KnexUnitOfWork).transient(),
     })
     .build();

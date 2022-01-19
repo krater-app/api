@@ -1,7 +1,7 @@
 import { AccountPassword } from '@core/account-password/account-password.value-object';
 import { PasswordHashProviderService } from '@core/account-password/password-hash-provider.service';
 import { AccountStatus } from '@core/account-status/account-status.value-object';
-import { AggregateRoot, UniqueEntityID } from '@krater/building-blocks';
+import { AggregateRoot, UnauthorizedError, UniqueEntityID } from '@krater/building-blocks';
 import { PasswordMustBeValidRule } from './rules/password-must-be-valid.rule';
 
 interface AccountProps {
@@ -33,6 +33,7 @@ export class Account extends AggregateRoot<AccountProps> {
   public async login(password: string, passwordHashProviderService: PasswordHashProviderService) {
     await Account.checkRule(
       new PasswordMustBeValidRule(this.props.password, password, passwordHashProviderService),
+      UnauthorizedError,
     );
   }
 

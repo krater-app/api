@@ -17,7 +17,7 @@ export const notificationsContainer = () => {
     .setControllers([])
     .setCustom({
       mailerService: asClass(MailhogMailerService).singleton(),
-      unitOfWork: asClass(KnexUnitOfWork).singleton(),
+      unitOfWork: asClass(KnexUnitOfWork).transient(),
     })
     .build();
 };

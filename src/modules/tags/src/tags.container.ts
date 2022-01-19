@@ -11,7 +11,7 @@ export const tagsContainer = () => {
     .setRepositories([])
     .setSubscribers([])
     .setCustom({
-      unitOfWork: asClass(KnexUnitOfWork),
+      unitOfWork: asClass(KnexUnitOfWork).transient(),
     })
     .build();
 };

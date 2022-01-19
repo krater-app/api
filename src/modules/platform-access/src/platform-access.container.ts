@@ -43,7 +43,7 @@ export const platformAccessContainer = () => {
       passwordHashProviderService: asClass(BcryptPasswordHashProviderService).singleton(),
       accountEmailCheckerService: asClass(AccountEmailCheckerServiceImpl).singleton(),
       accountNicknameCheckerService: asClass(AccountNicknameCheckerServiceImpl).singleton(),
-      unitOfWork: asClass(KnexUnitOfWork).singleton(),
+      unitOfWork: asClass(KnexUnitOfWork).transient(),
       emailVerificationCodeProviderService: asClass(
         EmailVerificationCodeProviderServiceImpl,
       ).singleton(),
