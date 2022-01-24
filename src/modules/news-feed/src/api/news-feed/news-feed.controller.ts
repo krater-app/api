@@ -10,6 +10,7 @@ interface Dependencies {
   isAccountConfirmedMiddleware: RequestHandler;
   publishPostAction: RequestHandler;
   getFeedAction: RequestHandler;
+  getTagsAction: RequestHandler;
 }
 
 export class NewsFeedController implements Controller {
@@ -35,6 +36,8 @@ export class NewsFeedController implements Controller {
     ]);
 
     router.get('/', [getFeedActionValidation, this.dependencies.getFeedAction]);
+
+    router.get('/tags', [this.dependencies.getTagsAction]);
 
     return router;
   }

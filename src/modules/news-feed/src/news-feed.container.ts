@@ -1,3 +1,4 @@
+import { GetTagsQueryHandler } from '@app/queries/get-tags/get-tags.query-handler';
 import { NewsFeedController } from '@api/news-feed/news-feed.controller';
 import { CreateNewTextPostCommandHandler } from '@app/commands/create-new-text-post/create-new-text-post.command-handler';
 import { PublishPostCommandHandler } from '@app/commands/publish-post/publish-post.command-handler';
@@ -18,7 +19,10 @@ export const newsFeedContainer = () => {
       asClass(PublishPostCommandHandler).singleton(),
     ])
     .setControllers([asClass(NewsFeedController).singleton()])
-    .setQueryHandlers([asClass(GetFeedQueryHandler).singleton()])
+    .setQueryHandlers([
+      asClass(GetFeedQueryHandler).singleton(),
+      asClass(GetTagsQueryHandler).singleton(),
+    ])
     .setRepositories([
       asClass(TextPostRepositoryImpl).singleton(),
       asClass(ManageablePostRepositoryImpl).singleton(),
