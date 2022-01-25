@@ -10,6 +10,7 @@ import { TextPostRepositoryImpl } from '@infrastructure/text-post/text-post.repo
 import { ContainerBuilder } from '@krater/building-blocks';
 import { KnexUnitOfWork } from '@krater/database';
 import { asClass } from 'awilix';
+import { GetPostDetailsQueryHandler } from '@app/queries/get-post-details/get-post-details.query-handler';
 
 export const newsFeedContainer = () => {
   return new ContainerBuilder()
@@ -22,6 +23,7 @@ export const newsFeedContainer = () => {
     .setQueryHandlers([
       asClass(GetFeedQueryHandler).singleton(),
       asClass(GetTagsQueryHandler).singleton(),
+      asClass(GetPostDetailsQueryHandler).singleton(),
     ])
     .setRepositories([
       asClass(TextPostRepositoryImpl).singleton(),

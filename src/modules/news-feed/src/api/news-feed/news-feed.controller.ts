@@ -2,6 +2,7 @@ import { Controller } from '@krater/building-blocks';
 import { RequestHandler, Router } from 'express';
 import { createTextPostActionValidation } from './create-text-post/create-text-post.action';
 import { getFeedActionValidation } from './get-feed/get-feed.action';
+import { getPostDetailsActionValidation } from './get-post-details/get-post-details.action';
 import { publishPostActionValidation } from './publish-post/publish-post.action';
 
 interface Dependencies {
@@ -11,6 +12,7 @@ interface Dependencies {
   publishPostAction: RequestHandler;
   getFeedAction: RequestHandler;
   getTagsAction: RequestHandler;
+  getPostDetailsAction: RequestHandler;
 }
 
 export class NewsFeedController implements Controller {
@@ -38,6 +40,13 @@ export class NewsFeedController implements Controller {
     router.get('/', [getFeedActionValidation, this.dependencies.getFeedAction]);
 
     router.get('/tags', [this.dependencies.getTagsAction]);
+
+    router.get('/post-details/:id', [
+      this.dependencies.authMiddleware,
+      this.dependencies.isAccountConfirmedMiddleware,
+      getPostDetailsActionValidation,
+      this.dependencies.getPostDetailsAction,
+    ]);
 
     return router;
   }

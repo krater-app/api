@@ -41,7 +41,7 @@ export class LoginCommandHandler
         {
           accountId: account.getId(),
         },
-        '30s',
+        process.env.NODE_ENV === 'development' ? '1h' : '30s',
       );
 
       const refreshToken = tokenProviderService.generateToken<AccessTokenPayloadDTO>(
