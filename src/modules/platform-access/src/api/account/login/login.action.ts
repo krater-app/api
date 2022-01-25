@@ -25,7 +25,7 @@ export const loginActionValidation = celebrate(
  * /account/login:
  *   post:
  *     tags:
- *        - Plaftorm Access
+ *        - Platform Access
  *     summary:
  *       This endpoint allows to login to the platform.
  *     requestBody:

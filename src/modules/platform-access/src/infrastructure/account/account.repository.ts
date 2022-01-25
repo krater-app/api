@@ -40,5 +40,19 @@ export class AccountRepositoryImpl implements AccountRepository {
     return result ? Account.fromPersistence(result) : null;
   }
 
+  public async findById(id: string): Promise<Account | null> {
+    const result = await this.dependencies.queryBuilder
+      .select<PersistedAccount>({
+        id: 'id',
+        passwordHash: 'password_hash',
+        status: 'status',
+      })
+      .from(TableNames.Account)
+      .where('id', id)
+      .first();
+
+    return result ? Account.fromPersistence(result) : null;
+  }
+
   public setCurrentTransaction(): void {}
 }

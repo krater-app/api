@@ -7,6 +7,7 @@ import { LoginCommand } from './login.command';
 
 export interface LoginCommandHandlerResult {
   accessToken: string;
+  refreshToken: string;
 }
 
 interface Dependencies {
@@ -36,12 +37,24 @@ export class LoginCommandHandler
 
       await account.login(command.payload.password, passwordHashProviderService);
 
-      const accessToken = tokenProviderService.generateToken<AccessTokenPayloadDTO>({
-        accountId: account.getId(),
-      });
+      const accessToken = tokenProviderService.generateToken<AccessTokenPayloadDTO>(
+        {
+          accountId: account.getId(),
+        },
+        '30s',
+      );
+
+      const refreshToken = tokenProviderService.generateToken<AccessTokenPayloadDTO>(
+        {
+          accountId: account.getId(),
+        },
+        '24h',
+        `${process.env.JWT_SERVICE_SECRET}${account.getPassword()}`,
+      );
 
       return {
         accessToken: `Bearer ${accessToken}`,
+        refreshToken: `Bearer ${refreshToken}`,
       };
     });
   }

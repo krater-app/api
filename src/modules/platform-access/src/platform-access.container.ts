@@ -2,6 +2,7 @@ import { AccountRegistrationController } from '@api/account-registration/account
 import { AccountController } from '@api/account/account.controller';
 import { ConfirmEmailAddressCommandHandler } from '@app/commands/confirm-email-address/confirm-email-address.command-handler';
 import { LoginCommandHandler } from '@app/commands/login/login.command-handler';
+import { RefreshTokenCommandHandler } from '@app/commands/refresh-token/refresh-token.command-handler';
 import { RegisterNewAccountCommandHandler } from '@app/commands/register-new-account/register-new-account.command-handler';
 import { ResendConfirmationEmailCommandHandler } from '@app/commands/resend-confirmation-email/resend-confirmation-email.command-handler';
 import { NewAccountRegisteredSubscriber } from '@app/subscribers/new-account-registered/new-account-registered.subscriber';
@@ -24,6 +25,7 @@ export const platformAccessContainer = () => {
       asClass(LoginCommandHandler).singleton(),
       asClass(ConfirmEmailAddressCommandHandler).singleton(),
       asClass(ResendConfirmationEmailCommandHandler).singleton(),
+      asClass(RefreshTokenCommandHandler).singleton(),
     ])
     .setQueryHandlers([])
     .setSubscribers([

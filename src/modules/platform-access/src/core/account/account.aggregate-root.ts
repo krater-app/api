@@ -40,4 +40,8 @@ export class Account extends AggregateRoot<AccountProps> {
   public getId(): Readonly<string> {
     return this.id.value;
   }
+
+  public getPassword() {
+    return this.props.password.props.passwordHash;
+  }
 }

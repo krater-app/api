@@ -12,7 +12,7 @@ interface Dependencies {
  * /account-registration/resend-confirmation-email:
  *   patch:
  *     tags:
- *        - Plaftorm Access
+ *        - Platform Access
  *     summary:
  *       This endpoint allows to resend confirmation email
  *     responses:

@@ -19,7 +19,7 @@ export const confirmEmailAddressActionValidation = celebrate({
  * /account-registration/confirm-email:
  *   patch:
  *     tags:
- *        - Plaftorm Access
+ *        - Platform Access
  *     security:
  *       - bearerAuth: []
  *     summary:

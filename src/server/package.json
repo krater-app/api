@@ -31,7 +31,8 @@
     "@krater/tags": "~1.0.0",
     "@krater/news-feed": "~1.0.0",
     "@krater/storage": "~1.0.0",
-    "@krater/file-system": "~1.0.0"
+    "@krater/file-system": "~1.0.0",
+    "cookie-parser": "~1.4.6"
   },
   "devDependencies": {
     "@types/node": "~16.11.12",
@@ -59,7 +60,8 @@
     "supertest": "~6.1.6",
     "@types/supertest": "~2.0.11",
     "@types/express-enforces-ssl": "~1.1.1",
-    "@types/hpp": "~0.2.2"
+    "@types/hpp": "~0.2.2",
+    "@types/cookie-parser": "~1.4.2"
   },
   "keywords": [],
   "author": "",

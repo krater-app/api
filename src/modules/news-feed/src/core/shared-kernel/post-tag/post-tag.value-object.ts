@@ -15,7 +15,7 @@ export class PostTag extends ValueObject<PostTagProps> {
   public static createNew(tagName: string) {
     PostTag.checkRule(new TagNameMustBeValidRule(tagName));
 
-    return new PostTag(tagName);
+    return new PostTag(`#${tagName.replace(/#/g, '')}`);
   }
 
   public static fromValue(value: string) {
