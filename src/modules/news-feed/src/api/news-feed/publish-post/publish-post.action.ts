@@ -27,6 +27,7 @@ export const publishPostActionValidation = celebrate({
  *        name: id
  *        schema:
  *          type: string
+ *          format: uuid
  *     responses:
  *       204:
  *        description: Post published successfully

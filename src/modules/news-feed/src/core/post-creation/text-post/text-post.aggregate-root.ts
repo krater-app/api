@@ -1,10 +1,12 @@
-import { AggregateRoot, UniqueEntityID } from '@krater/building-blocks';
+import { AggregateRoot, UnauthenticatedError, UniqueEntityID } from '@krater/building-blocks';
 import { CreateNewTextPostDTO } from '@root/dtos/create-new-text-post.dto';
 import { NewPostCreatedEvent } from '@krater/integration-events';
 import { PostTitle } from '@core/post-creation/post-title/post-title.value-object';
 import { PostTag } from '@core/shared-kernel/post-tag/post-tag.value-object';
 import { PostStatus } from '@core/shared-kernel/post-status/post-status.value-object';
 import { TextPostContent } from '@core/post-creation/text-post/text-post-content/text-post-content.value-object';
+import { EditTextPostDTO } from '@root/dtos/edit-text-post.dto';
+import { UserMustBePostAuthor } from '@core/shared-kernel/rules/user-must-be-post-author.rule';
 import { PostCantContainMoreThanTenTagsRule } from '../rules/post-cant-contain-more-than-ten-tags.rule';
 
 interface TextPostProps {
@@ -60,6 +62,28 @@ export class TextPost extends AggregateRoot<TextPostProps> {
     );
 
     return textPost;
+  }
+
+  public edit({ accountId, tags, content, title, isNsfw }: EditTextPostDTO) {
+    TextPost.checkRule(
+      new UserMustBePostAuthor(accountId, this.props.authorId),
+      UnauthenticatedError,
+    );
+
+    const uniqueTags = [...new Set(tags ?? [])];
+
+    if (uniqueTags.length) {
+      TextPost.checkRule(new PostCantContainMoreThanTenTagsRule(uniqueTags));
+    }
+
+    this.props.content =
+      content === undefined ? this.props.content : TextPostContent.createNew(content);
+
+    this.props.title = title === undefined ? this.props.title : PostTitle.createNew(title);
+
+    this.props.tags = tags === undefined ? this.props.tags : uniqueTags.map(PostTag.createNew);
+
+    this.props.nsfw = isNsfw === undefined ? this.props.nsfw : isNsfw;
   }
 
   public static fromPersistence({

@@ -1,6 +1,7 @@
 import { Controller } from '@krater/building-blocks';
 import { RequestHandler, Router } from 'express';
 import { createTextPostActionValidation } from './create-text-post/create-text-post.action';
+import { editTextPostActionValidation } from './edit-text-post/edit-text-post.action';
 import { getFeedActionValidation } from './get-feed/get-feed.action';
 import { getPostDetailsActionValidation } from './get-post-details/get-post-details.action';
 import { publishPostActionValidation } from './publish-post/publish-post.action';
@@ -13,6 +14,7 @@ interface Dependencies {
   getFeedAction: RequestHandler;
   getTagsAction: RequestHandler;
   getPostDetailsAction: RequestHandler;
+  editTextPostAction: RequestHandler;
 }
 
 export class NewsFeedController implements Controller {
@@ -46,6 +48,13 @@ export class NewsFeedController implements Controller {
       this.dependencies.isAccountConfirmedMiddleware,
       getPostDetailsActionValidation,
       this.dependencies.getPostDetailsAction,
+    ]);
+
+    router.patch('/text-post/:id', [
+      this.dependencies.authMiddleware,
+      this.dependencies.isAccountConfirmedMiddleware,
+      editTextPostActionValidation,
+      this.dependencies.editTextPostAction,
     ]);
 
     return router;
