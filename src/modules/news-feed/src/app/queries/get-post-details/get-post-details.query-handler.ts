@@ -26,6 +26,7 @@ export class GetPostDetailsQueryHandler
         'feedItem.tags',
         'feedItem.created_at AS createdAt',
         'feedItem.type',
+        'post.status',
       ])
       .where('post.id', query.payload.postId)
       .andWhere('post.author_id', query.payload.accountId)

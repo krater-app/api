@@ -62,6 +62,8 @@ export class GetFeedQueryHandler
     return {
       items: result.map((post) => ({
         ...post,
+        comments: Number(post.comments),
+        likes: Number(post.likes),
         imageUrl: post.imagePath
           ? this.dependencies.storageService.getPublicFileUrl(post.imagePath)
           : null,

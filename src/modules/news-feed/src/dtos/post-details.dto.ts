@@ -9,4 +9,5 @@ export interface PostDetailsDTO {
   isNsfw: boolean;
   createdAt: Date;
   type: string;
+  status: string;
 }

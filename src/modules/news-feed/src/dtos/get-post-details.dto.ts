@@ -1,5 +1,4 @@
-export class GetPostDetailsDTO {
+export interface GetPostDetailsDTO {
   postId: string;
-
   accountId: string;
 }
