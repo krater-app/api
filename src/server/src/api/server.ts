@@ -25,6 +25,10 @@ export class Server {
 
     applySecurityMiddleware(this.app);
 
+    this.app.get('/', (req, res) => {
+      res.redirect(308, `${req.baseUrl}/api-docs`);
+    });
+
     this.app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocs));
 
     dependencies.modules.forEach((module) => module.registerControllers(this.app));
