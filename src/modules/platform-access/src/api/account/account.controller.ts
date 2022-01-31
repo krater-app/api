@@ -5,6 +5,8 @@ import { loginActionValidation } from './login/login.action';
 interface Dependencies {
   loginAction: RequestHandler;
   refreshTokenAction: RequestHandler;
+  authMiddleware: RequestHandler;
+  getAccountInformationAction: RequestHandler;
 }
 
 export class AccountController implements Controller {
@@ -18,6 +20,11 @@ export class AccountController implements Controller {
     router.post('/login', [loginActionValidation, this.dependencies.loginAction]);
 
     router.post('/refresh-token', [this.dependencies.refreshTokenAction]);
+
+    router.get('/', [
+      this.dependencies.authMiddleware,
+      this.dependencies.getAccountInformationAction,
+    ]);
 
     return router;
   }
