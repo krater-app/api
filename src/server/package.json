@@ -32,7 +32,8 @@
     "@krater/news-feed": "~1.0.0",
     "@krater/storage": "~1.0.0",
     "@krater/file-system": "~1.0.0",
-    "cookie-parser": "~1.4.6"
+    "cookie-parser": "~1.4.6",
+    "@krater/profile": "~1.0.0"
   },
   "devDependencies": {
     "@types/node": "~16.11.12",

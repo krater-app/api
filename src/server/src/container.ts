@@ -30,6 +30,7 @@ import { tagsModule } from '@krater/tags';
 import { newsFeedModule } from '@krater/news-feed';
 import { AwsStorageService, StorageService } from '@krater/storage';
 import { fileSystemModule } from '@krater/file-system';
+import { profileModule } from '@krater/profile';
 
 export const createAppContainer = async (): Promise<AwilixContainer> => {
   const container = createContainer({
@@ -80,6 +81,7 @@ export const createAppContainer = async (): Promise<AwilixContainer> => {
         tagsModule(moduleDependencies),
         newsFeedModule(moduleDependencies),
         fileSystemModule(moduleDependencies),
+        profileModule(moduleDependencies),
       ].map((module) => asValue(module)),
     ),
     jobs: registerAsArray([asClass(ProcessOutboxJob).singleton()]),

@@ -1,7 +1,7 @@
 import swaggerJSDoc from 'swagger-jsdoc';
 import path from 'path';
 
-const modules = ['platform-access', 'news-feed', 'file-system'];
+const modules = ['platform-access', 'news-feed', 'file-system', 'profile'];
 
 export const swaggerDocs = swaggerJSDoc({
   swaggerDefinition: {
