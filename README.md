@@ -4,6 +4,8 @@
 
 ## Architectural Drivers 🏎
 
+## C4 Model 📡
+
 ## Modular Monolith 🗄
 The project uses rush.js to treat each module as a separate package from the node.js perspective.
 
