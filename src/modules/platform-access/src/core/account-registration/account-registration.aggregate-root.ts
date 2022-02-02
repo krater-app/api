@@ -146,6 +146,8 @@ export class AccountRegistration extends AggregateRoot<AccountRegistrationProps>
       new AccountEmailConfirmedEvent({
         accountId: this.getId(),
         accountEmail: this.getEmail(),
+        accountNickname: this.getNickname(),
+        registeredAt: this.getRegisteredAt().toISOString(),
       }),
     );
   }

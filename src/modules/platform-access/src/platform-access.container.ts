@@ -6,6 +6,7 @@ import { RefreshTokenCommandHandler } from '@app/commands/refresh-token/refresh-
 import { RegisterNewAccountCommandHandler } from '@app/commands/register-new-account/register-new-account.command-handler';
 import { ResendConfirmationEmailCommandHandler } from '@app/commands/resend-confirmation-email/resend-confirmation-email.command-handler';
 import { GetAccountInformationQueryHandler } from '@app/queries/get-account-information/get-account-information.query-handler';
+import { AccountEmailConfirmedSubscriber } from '@app/subscribers/account-email-confirmed/account-email-confirmed.subscriber';
 import { NewAccountRegisteredSubscriber } from '@app/subscribers/new-account-registered/new-account-registered.subscriber';
 import { VerificationEmailSentAgainSubscriber } from '@app/subscribers/verification-email-sent-again/verification-email-sent-again.subscriber';
 import { AccountEmailCheckerServiceImpl } from '@infrastructure/account-email/account-email-checker.service';
@@ -32,6 +33,7 @@ export const platformAccessContainer = () => {
     .setSubscribers([
       asClass(NewAccountRegisteredSubscriber).singleton(),
       asClass(VerificationEmailSentAgainSubscriber).singleton(),
+      asClass(AccountEmailConfirmedSubscriber).singleton(),
     ])
     .setRepositories([
       asClass(AccountRegistrationRepositoryImpl).singleton(),
