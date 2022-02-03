@@ -4,12 +4,15 @@ import { AggregateRoot, UnauthenticatedError, UniqueEntityID } from '@krater/bui
 import { PostPublishedEvent } from '@krater/integration-events';
 import { PostMustNotBeBannedRule } from './rules/post-must-not-be-banned.rule';
 import { PostMustNotBePublishedAlreadyRule } from './rules/post-must-not-be-published-already.rule';
+import { UserCantLikePostMoreThanOnceRule } from './rules/user-cant-like-post-more-than-once.rule';
 import { UserMustBePostAuthorRule } from './rules/user-must-be-post-author.rule';
 
 interface ManageablePostProps {
   postAuthorId: UniqueEntityID;
   status: PostStatus;
   tags: PostTag[];
+  likedUserIDs: UniqueEntityID[];
+  likedUserIDsToPersist: UniqueEntityID[];
 }
 
 export interface PersistedManageablePost {
@@ -17,6 +20,7 @@ export interface PersistedManageablePost {
   postAuthorId: string;
   status: string;
   tags: string[];
+  likedUserIDs: string[];
 }
 
 export class ManageablePost extends AggregateRoot<ManageablePostProps> {
@@ -24,12 +28,20 @@ export class ManageablePost extends AggregateRoot<ManageablePostProps> {
     super(props, id);
   }
 
-  public static fromPersistence({ status, id, tags, postAuthorId }: PersistedManageablePost) {
+  public static fromPersistence({
+    status,
+    id,
+    tags,
+    postAuthorId,
+    likedUserIDs,
+  }: PersistedManageablePost) {
     return new ManageablePost(
       {
         status: PostStatus.fromValue(status),
         tags: tags.map(PostTag.fromValue),
         postAuthorId: new UniqueEntityID(postAuthorId),
+        likedUserIDs: likedUserIDs.map((likeId) => new UniqueEntityID(likeId)),
+        likedUserIDsToPersist: [],
       },
       new UniqueEntityID(id),
     );
@@ -53,11 +65,25 @@ export class ManageablePost extends AggregateRoot<ManageablePostProps> {
     );
   }
 
+  public like(userId: string) {
+    ManageablePost.checkRule(new UserCantLikePostMoreThanOnceRule(userId, this.props.likedUserIDs));
+
+    const uniqueUserId = new UniqueEntityID(userId);
+
+    this.props.likedUserIDs.push(uniqueUserId);
+
+    this.props.likedUserIDsToPersist.push(uniqueUserId);
+  }
+
   public getStatus() {
     return this.props.status;
   }
 
   public getId() {
     return this.id.value;
+  }
+
+  public getLikedUserIDsToPersist() {
+    return this.props.likedUserIDsToPersist.map((id) => id.value);
   }
 }
