@@ -12,6 +12,7 @@ import { KnexUnitOfWork } from '@krater/database';
 import { asClass } from 'awilix';
 import { GetPostDetailsQueryHandler } from '@app/queries/get-post-details/get-post-details.query-handler';
 import { EditTextPostCommandHandler } from '@app/commands/edit-text-post/edit-text-post.command-handler';
+import { LikePostCommandHandler } from '@app/commands/like-post/like-post.command-handler';
 
 export const newsFeedContainer = () => {
   return new ContainerBuilder()
@@ -20,6 +21,7 @@ export const newsFeedContainer = () => {
       asClass(CreateNewTextPostCommandHandler).singleton(),
       asClass(PublishPostCommandHandler).singleton(),
       asClass(EditTextPostCommandHandler).singleton(),
+      asClass(LikePostCommandHandler).singleton(),
     ])
     .setControllers([asClass(NewsFeedController).singleton()])
     .setQueryHandlers([

@@ -5,4 +5,5 @@ export enum TableNames {
   PostTag = 'news_feed.post_tag',
   Post = 'news_feed.post',
   FeedItem = 'news_feed.feed_item',
+  PostRating = 'news_feed.post_rating',
 }

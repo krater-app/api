@@ -4,6 +4,7 @@ import { createTextPostActionValidation } from './create-text-post/create-text-p
 import { editTextPostActionValidation } from './edit-text-post/edit-text-post.action';
 import { getFeedActionValidation } from './get-feed/get-feed.action';
 import { getPostDetailsActionValidation } from './get-post-details/get-post-details.action';
+import { likePostActionValidation } from './like-post/like-post.action';
 import { publishPostActionValidation } from './publish-post/publish-post.action';
 
 interface Dependencies {
@@ -15,6 +16,7 @@ interface Dependencies {
   getTagsAction: RequestHandler;
   getPostDetailsAction: RequestHandler;
   editTextPostAction: RequestHandler;
+  likePostAction: RequestHandler;
 }
 
 export class NewsFeedController implements Controller {
@@ -55,6 +57,13 @@ export class NewsFeedController implements Controller {
       this.dependencies.isAccountConfirmedMiddleware,
       editTextPostActionValidation,
       this.dependencies.editTextPostAction,
+    ]);
+
+    router.patch('/post/:id/like', [
+      this.dependencies.authMiddleware,
+      this.dependencies.isAccountConfirmedMiddleware,
+      likePostActionValidation,
+      this.dependencies.likePostAction,
     ]);
 
     return router;

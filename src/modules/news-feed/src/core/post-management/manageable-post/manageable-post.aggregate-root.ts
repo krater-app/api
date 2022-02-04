@@ -2,6 +2,7 @@ import { PostStatus } from '@core/shared-kernel/post-status/post-status.value-ob
 import { PostTag } from '@core/shared-kernel/post-tag/post-tag.value-object';
 import { AggregateRoot, UnauthenticatedError, UniqueEntityID } from '@krater/building-blocks';
 import { PostPublishedEvent } from '@krater/integration-events';
+import { PostMustBePublishedRule } from './rules/post-must-be-published.rule';
 import { PostMustNotBeBannedRule } from './rules/post-must-not-be-banned.rule';
 import { PostMustNotBePublishedAlreadyRule } from './rules/post-must-not-be-published-already.rule';
 import { UserCantLikePostMoreThanOnceRule } from './rules/user-cant-like-post-more-than-once.rule';
@@ -66,6 +67,7 @@ export class ManageablePost extends AggregateRoot<ManageablePostProps> {
   }
 
   public like(userId: string) {
+    ManageablePost.checkRule(new PostMustBePublishedRule(this.props.status));
     ManageablePost.checkRule(new UserCantLikePostMoreThanOnceRule(userId, this.props.likedUserIDs));
 
     const uniqueUserId = new UniqueEntityID(userId);
