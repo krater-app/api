@@ -1,4 +1,4 @@
-import { DomainEvent } from '@krater/building-blocks';
+import { DomainEvent, ModuleNames } from '@krater/building-blocks';
 
 export interface NewPostCreatedEventPayload {
   postId: string;
@@ -9,7 +9,7 @@ export interface NewPostCreatedEventPayload {
 export class NewPostCreatedEvent implements DomainEvent<NewPostCreatedEventPayload> {
   public readonly name = NewPostCreatedEvent.name;
 
-  public readonly module = 'news-feed';
+  public readonly module = ModuleNames.NewsFeed;
 
   constructor(public readonly payload: NewPostCreatedEventPayload) {}
 }

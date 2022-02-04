@@ -1,4 +1,4 @@
-import { DomainEvent } from '@krater/building-blocks';
+import { DomainEvent, ModuleNames } from '@krater/building-blocks';
 
 export interface AccountEmailConfirmedEventPayload {
   accountId: string;
@@ -10,7 +10,7 @@ export interface AccountEmailConfirmedEventPayload {
 export class AccountEmailConfirmedEvent implements DomainEvent<AccountEmailConfirmedEventPayload> {
   name = AccountEmailConfirmedEvent.name;
 
-  module = 'platform-access';
+  module = ModuleNames.PlatformAccess;
 
   constructor(public readonly payload: AccountEmailConfirmedEventPayload) {}
 }

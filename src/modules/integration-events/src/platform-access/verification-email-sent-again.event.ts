@@ -1,4 +1,4 @@
-import { DomainEvent } from '@krater/building-blocks';
+import { DomainEvent, ModuleNames } from '@krater/building-blocks';
 
 export interface VerificationEmailSentAgainEventPayload {
   accountId: string;
@@ -7,7 +7,7 @@ export interface VerificationEmailSentAgainEventPayload {
 }
 
 export class VerificationEmailSentAgainEvent implements DomainEvent {
-  public readonly module = 'platform-access';
+  public readonly module = ModuleNames.PlatformAccess;
 
   public readonly name = VerificationEmailSentAgainEvent.name;
 

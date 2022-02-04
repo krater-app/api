@@ -15,3 +15,5 @@ export * from './app';
 export * from './infrastructure';
 
 export * from './api';
+
+export * from './modules.config';

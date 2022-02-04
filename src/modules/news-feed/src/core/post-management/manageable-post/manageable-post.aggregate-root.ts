@@ -2,9 +2,12 @@ import { PostStatus } from '@core/shared-kernel/post-status/post-status.value-ob
 import { PostTag } from '@core/shared-kernel/post-tag/post-tag.value-object';
 import { AggregateRoot, UnauthenticatedError, UniqueEntityID } from '@krater/building-blocks';
 import { PostPublishedEvent } from '@krater/integration-events';
+import { PostRatingClearedOutEvent } from './events/post-rating-cleared-out.event';
+import { PostLikedEvent } from './events/post-liked.event';
 import { PostMustBePublishedRule } from './rules/post-must-be-published.rule';
 import { PostMustNotBeBannedRule } from './rules/post-must-not-be-banned.rule';
 import { PostMustNotBePublishedAlreadyRule } from './rules/post-must-not-be-published-already.rule';
+import { PostRatingMustBeSetRule } from './rules/post-rating-must-be-set.rule';
 import { UserCantLikePostMoreThanOnceRule } from './rules/user-cant-like-post-more-than-once.rule';
 import { UserMustBePostAuthorRule } from './rules/user-must-be-post-author.rule';
 
@@ -13,7 +16,7 @@ interface ManageablePostProps {
   status: PostStatus;
   tags: PostTag[];
   likedUserIDs: UniqueEntityID[];
-  likedUserIDsToPersist: UniqueEntityID[];
+  disslikedUserIDs: UniqueEntityID[];
 }
 
 export interface PersistedManageablePost {
@@ -42,7 +45,7 @@ export class ManageablePost extends AggregateRoot<ManageablePostProps> {
         tags: tags.map(PostTag.fromValue),
         postAuthorId: new UniqueEntityID(postAuthorId),
         likedUserIDs: likedUserIDs.map((likeId) => new UniqueEntityID(likeId)),
-        likedUserIDsToPersist: [],
+        disslikedUserIDs: [],
       },
       new UniqueEntityID(id),
     );
@@ -74,7 +77,36 @@ export class ManageablePost extends AggregateRoot<ManageablePostProps> {
 
     this.props.likedUserIDs.push(uniqueUserId);
 
-    this.props.likedUserIDsToPersist.push(uniqueUserId);
+    this.addDomainEvent(
+      new PostLikedEvent({
+        postId: this.getId(),
+        accountId: userId,
+        likedAt: new Date().toISOString(),
+      }),
+    );
+  }
+
+  public clearPostRating(userId: string) {
+    const uniqueUserId = new UniqueEntityID(userId);
+
+    ManageablePost.checkRule(new PostMustBePublishedRule(this.props.status));
+    ManageablePost.checkRule(
+      new PostRatingMustBeSetRule(
+        this.props.likedUserIDs,
+        this.props.disslikedUserIDs,
+        uniqueUserId,
+      ),
+    );
+
+    this.props.disslikedUserIDs.push(uniqueUserId);
+
+    this.addDomainEvent(
+      new PostRatingClearedOutEvent({
+        postId: this.getId(),
+        accountId: userId,
+        clearedOutAt: new Date().toISOString(),
+      }),
+    );
   }
 
   public getStatus() {
@@ -83,9 +115,5 @@ export class ManageablePost extends AggregateRoot<ManageablePostProps> {
 
   public getId() {
     return this.id.value;
-  }
-
-  public getLikedUserIDsToPersist() {
-    return this.props.likedUserIDsToPersist.map((id) => id.value);
   }
 }

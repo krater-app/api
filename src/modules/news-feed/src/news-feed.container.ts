@@ -13,6 +13,10 @@ import { asClass } from 'awilix';
 import { GetPostDetailsQueryHandler } from '@app/queries/get-post-details/get-post-details.query-handler';
 import { EditTextPostCommandHandler } from '@app/commands/edit-text-post/edit-text-post.command-handler';
 import { LikePostCommandHandler } from '@app/commands/like-post/like-post.command-handler';
+import { PostLikedSubscriber } from '@app/subscribers/post-liked/post-liked.subscriber';
+import { PostRatingClearedOutSubscriber } from '@app/subscribers/post-rating-cleared-out/post-rating-cleared-out.subscriber';
+import { ClearPostRatingCommandHandler } from '@app/commands/clear-post-rating/clear-post-rating.command-handler';
+import { PostsController } from '@api/posts/posts.controller';
 
 export const newsFeedContainer = () => {
   return new ContainerBuilder()
@@ -22,8 +26,9 @@ export const newsFeedContainer = () => {
       asClass(PublishPostCommandHandler).singleton(),
       asClass(EditTextPostCommandHandler).singleton(),
       asClass(LikePostCommandHandler).singleton(),
+      asClass(ClearPostRatingCommandHandler).singleton(),
     ])
-    .setControllers([asClass(NewsFeedController).singleton()])
+    .setControllers([asClass(NewsFeedController).singleton(), asClass(PostsController).singleton()])
     .setQueryHandlers([
       asClass(GetFeedQueryHandler).singleton(),
       asClass(GetTagsQueryHandler).singleton(),
@@ -36,6 +41,8 @@ export const newsFeedContainer = () => {
     .setSubscribers([
       asClass(NewAccountRegisteredSubscriber).singleton(),
       asClass(NewTextPostCreatedSubscriber).singleton(),
+      asClass(PostLikedSubscriber).singleton(),
+      asClass(PostRatingClearedOutSubscriber).singleton(),
     ])
     .setCustom({
       unitOfWork: asClass(KnexUnitOfWork).transient(),

@@ -2,7 +2,6 @@ import { ManageablePost } from '@core/post-management/manageable-post/manageable
 import { ManageablePostRepository } from '@core/post-management/manageable-post/manageable-post.repository';
 import { PostRatingTypeValue } from '@core/shared-kernel/post-rating-type/post-rating-type.value-object';
 import { TableNames } from '@infrastructure/table-names';
-import { UniqueEntityID } from '@krater/building-blocks';
 import { DatabaseTransaction, QueryBuilder } from '@krater/database';
 
 interface Dependencies {
@@ -61,20 +60,6 @@ export class ManageablePostRepositoryImpl implements ManageablePostRepository {
       })
       .where('id', manageablePost.getId())
       .into(TableNames.Post);
-
-    const likesToAdd = manageablePost.getLikedUserIDsToPersist().map((accountId) => ({
-      id: new UniqueEntityID().value,
-      post_id: manageablePost.getId(),
-      account_id: accountId,
-      created_at: new Date().toISOString(),
-      rating_type: PostRatingTypeValue.Like,
-    }));
-
-    if (!likesToAdd.length) {
-      return;
-    }
-
-    await this.currentTransaction.insert(likesToAdd).into(TableNames.PostRating);
   }
 
   public setCurrentTransaction(transaction: DatabaseTransaction): void {
