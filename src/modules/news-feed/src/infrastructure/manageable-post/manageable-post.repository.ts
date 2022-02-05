@@ -46,9 +46,17 @@ export class ManageablePostRepositoryImpl implements ManageablePostRepository {
       .andWhere('rating_type', PostRatingTypeValue.Like)
       .from(TableNames.PostRating);
 
+    const disslikedUserIDs = await this.dependencies.queryBuilder
+      .select(['account_id'])
+      .pluck('account_id')
+      .where('post_id', id)
+      .andWhere('rating_type', PostRatingTypeValue.Disslike)
+      .from(TableNames.PostRating);
+
     return ManageablePost.fromPersistence({
       ...result,
       likedUserIDs,
+      disslikedUserIDs,
       tags,
     });
   }

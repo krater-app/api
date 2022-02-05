@@ -10,6 +10,8 @@ import { PostMustNotBePublishedAlreadyRule } from './rules/post-must-not-be-publ
 import { PostRatingMustBeSetRule } from './rules/post-rating-must-be-set.rule';
 import { UserCantLikePostMoreThanOnceRule } from './rules/user-cant-like-post-more-than-once.rule';
 import { UserMustBePostAuthorRule } from './rules/user-must-be-post-author.rule';
+import { UserCantDisslikePostMoreThanOnceRule } from './rules/user-cant-disslike-post-more-than-once.rule';
+import { PostDisslikedEvent } from './events/post-dissliked.event';
 
 interface ManageablePostProps {
   postAuthorId: UniqueEntityID;
@@ -25,6 +27,7 @@ export interface PersistedManageablePost {
   status: string;
   tags: string[];
   likedUserIDs: string[];
+  disslikedUserIDs: string[];
 }
 
 export class ManageablePost extends AggregateRoot<ManageablePostProps> {
@@ -38,6 +41,7 @@ export class ManageablePost extends AggregateRoot<ManageablePostProps> {
     tags,
     postAuthorId,
     likedUserIDs,
+    disslikedUserIDs,
   }: PersistedManageablePost) {
     return new ManageablePost(
       {
@@ -45,7 +49,7 @@ export class ManageablePost extends AggregateRoot<ManageablePostProps> {
         tags: tags.map(PostTag.fromValue),
         postAuthorId: new UniqueEntityID(postAuthorId),
         likedUserIDs: likedUserIDs.map((likeId) => new UniqueEntityID(likeId)),
-        disslikedUserIDs: [],
+        disslikedUserIDs: disslikedUserIDs.map((disslikeId) => new UniqueEntityID(disslikeId)),
       },
       new UniqueEntityID(id),
     );
@@ -82,6 +86,25 @@ export class ManageablePost extends AggregateRoot<ManageablePostProps> {
         postId: this.getId(),
         accountId: userId,
         likedAt: new Date().toISOString(),
+      }),
+    );
+  }
+
+  public disslike(userId: string) {
+    ManageablePost.checkRule(new PostMustBePublishedRule(this.props.status));
+    ManageablePost.checkRule(
+      new UserCantDisslikePostMoreThanOnceRule(this.props.disslikedUserIDs, userId),
+    );
+
+    const uniqueUserId = new UniqueEntityID(userId);
+
+    this.props.disslikedUserIDs.push(uniqueUserId);
+
+    this.addDomainEvent(
+      new PostDisslikedEvent({
+        postId: this.getId(),
+        accountId: userId,
+        disslikedAt: new Date().toISOString(),
       }),
     );
   }

@@ -17,6 +17,8 @@ import { PostLikedSubscriber } from '@app/subscribers/post-liked/post-liked.subs
 import { PostRatingClearedOutSubscriber } from '@app/subscribers/post-rating-cleared-out/post-rating-cleared-out.subscriber';
 import { ClearPostRatingCommandHandler } from '@app/commands/clear-post-rating/clear-post-rating.command-handler';
 import { PostsController } from '@api/posts/posts.controller';
+import { DisslikePostCommandHandler } from '@app/commands/disslike-post/disslike-post.command-handler';
+import { PostDisslikedSubscriber } from '@app/subscribers/post-dissliked/post-dissliked.subscriber';
 
 export const newsFeedContainer = () => {
   return new ContainerBuilder()
@@ -27,6 +29,7 @@ export const newsFeedContainer = () => {
       asClass(EditTextPostCommandHandler).singleton(),
       asClass(LikePostCommandHandler).singleton(),
       asClass(ClearPostRatingCommandHandler).singleton(),
+      asClass(DisslikePostCommandHandler).singleton(),
     ])
     .setControllers([asClass(NewsFeedController).singleton(), asClass(PostsController).singleton()])
     .setQueryHandlers([
@@ -43,6 +46,7 @@ export const newsFeedContainer = () => {
       asClass(NewTextPostCreatedSubscriber).singleton(),
       asClass(PostLikedSubscriber).singleton(),
       asClass(PostRatingClearedOutSubscriber).singleton(),
+      asClass(PostDisslikedSubscriber).singleton(),
     ])
     .setCustom({
       unitOfWork: asClass(KnexUnitOfWork).transient(),
