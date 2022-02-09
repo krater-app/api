@@ -6,6 +6,19 @@
 
 ## C4 Model 📡
 
+
+#### Legend
+
+![Model C4 Legend](./docs/model-c4/images/legend.png)
+
+
+#### C1 System Context
+
+![Model C4 - System Context](./docs/model-c4/images/c1-level.png)
+
+#### C2 Container
+
+![Model C4 - Container](./docs/model-c4/images/c2-level.png)
 ## Modular Monolith 🗄
 The project uses rush.js to treat each module as a separate package from the node.js perspective.
 
