@@ -1,14 +1,14 @@
 import { ModuleBuilder, ModuleDependencies, ModuleNames } from '@krater/building-blocks';
 import { asValue } from 'awilix';
-import { tagsContainer } from './tags.container';
+import { followingContainer } from './following.container';
 
-export const tagsModule = ({
+export const followingModule = ({
   authMiddleware,
   isAccountConfirmedMiddleware,
   logger,
   queryBuilder,
 }: ModuleDependencies) => {
-  const container = tagsContainer();
+  const container = followingContainer();
 
   container.register({
     authMiddleware: asValue(authMiddleware),
@@ -17,5 +17,5 @@ export const tagsModule = ({
     queryBuilder: asValue(queryBuilder),
   });
 
-  return new ModuleBuilder().setName(ModuleNames.Tags).setContainer(container).build();
+  return new ModuleBuilder().setName(ModuleNames.Following).setContainer(container).build();
 };

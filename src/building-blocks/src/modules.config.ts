@@ -5,4 +5,5 @@ export enum ModuleNames {
   Tags = 'tags',
   FileSystem = 'file-system',
   Profile = 'profile',
+  Following = 'following',
 }

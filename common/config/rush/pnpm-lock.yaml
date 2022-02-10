@@ -4,6 +4,7 @@ specifiers:
   '@rush-temp/building-blocks': file:./projects/building-blocks.tgz
   '@rush-temp/database': file:./projects/database.tgz
   '@rush-temp/file-system': file:./projects/file-system.tgz
+  '@rush-temp/following': file:./projects/following.tgz
   '@rush-temp/integration-events': file:./projects/integration-events.tgz
   '@rush-temp/news-feed': file:./projects/news-feed.tgz
   '@rush-temp/notifications': file:./projects/notifications.tgz
@@ -73,6 +74,7 @@ dependencies:
   '@rush-temp/building-blocks': file:projects/building-blocks.tgz_ts-node@10.4.0
   '@rush-temp/database': file:projects/database.tgz
   '@rush-temp/file-system': file:projects/file-system.tgz_ts-node@10.4.0
+  '@rush-temp/following': file:projects/following.tgz_ts-node@10.4.0
   '@rush-temp/integration-events': file:projects/integration-events.tgz_ts-node@10.4.0
   '@rush-temp/news-feed': file:projects/news-feed.tgz_ts-node@10.4.0
   '@rush-temp/notifications': file:projects/notifications.tgz_ts-node@10.4.0
@@ -6611,6 +6613,45 @@ packages:
       - utf-8-validate
     dev: false
 
+  file:projects/following.tgz_ts-node@10.4.0:
+    resolution: {integrity: sha512-u8JuEr7dBw9ISXehbbzlK2tgJ212KYKMZFyx5b9E85jiM3TTSO/T6IOJ4k+RR6Q1LbBc11LTHcYYzklAlqDwDw==, tarball: file:projects/following.tgz}
+    id: file:projects/following.tgz
+    name: '@rush-temp/following'
+    version: 0.0.0
+    dependencies:
+      '@types/jest': 27.0.3
+      '@types/node': 16.11.17
+      '@typescript-eslint/eslint-plugin': 5.6.0_7f07f675563385d7808243d1aafb415c
+      '@typescript-eslint/parser': 5.6.0_eslint@7.32.0+typescript@4.5.4
+      awilix: 6.0.0
+      eslint: 7.32.0
+      eslint-config-airbnb-typescript: 12.3.1_809b613b706c2ac1a049a395c28700bd
+      eslint-config-prettier: 8.3.0_eslint@7.32.0
+      eslint-plugin-import: 2.24.0_eslint@7.32.0
+      eslint-plugin-prettier: 4.0.0_6e6a25a49a944db0fa38418c3ba4bc86
+      eslint-plugin-unicorn: 39.0.0_eslint@7.32.0
+      husky: 7.0.4
+      jest: 27.4.5_ts-node@10.4.0
+      prettier: 2.5.1
+      pretty-quick: 3.1.3_prettier@2.5.1
+      ts-jest: 27.1.2_b65cae1b46840061996b6cc0ea16ca56
+      tsc-alias: 1.4.2
+      typescript: 4.5.4
+    transitivePeerDependencies:
+      - '@babel/core'
+      - babel-jest
+      - bufferutil
+      - canvas
+      - esbuild
+      - eslint-plugin-jsx-a11y
+      - eslint-plugin-react
+      - eslint-plugin-react-hooks
+      - node-notifier
+      - supports-color
+      - ts-node
+      - utf-8-validate
+    dev: false
+
   file:projects/integration-events.tgz_ts-node@10.4.0:
     resolution: {integrity: sha512-pNaSX5cPbisTjlLKIpvRm8dZJcURWT/KX1UtIGwRcDc+nvOvhIvuiRbMPE7OU2dA8QrXGXneBsLmHBQYZW+6GA==, tarball: file:projects/integration-events.tgz}
     id: file:projects/integration-events.tgz
@@ -6821,7 +6862,7 @@ packages:
     dev: false
 
   file:projects/server.tgz:
-    resolution: {integrity: sha512-K7lIPfrCA9gqQNlX49KvYVaifjPzG85RLNA/qSdYd/rY7uTgmpNphTqY7yYtLCrzzNLt0s1VHtM/W0y+8xmVXA==, tarball: file:projects/server.tgz}
+    resolution: {integrity: sha512-w5C9qWqAbX0wZh1p6rkEdSrKZIYSoRyPDbD1kCO8CpTIZivmX5RToJYrPsRHzCqzlYhDaKJ6T6STcMBcbcB/tg==, tarball: file:projects/server.tgz}
     name: '@rush-temp/server'
     version: 0.0.0
     dependencies:
