@@ -12,6 +12,16 @@ services:
       - POSTGRES_DB=$POSTGRES_DB
     networks:
       - data
+    volumes:
+      - ./docker/postgres:/dat
+    healthcheck:
+      test: pg_isready -U postgres
+      interval: 30s
+      timeout: 30s
+      retries: 3
+    restart: unless-stopped
+    logging:
+      driver: "json-file"
 
   adminer:
     container_name: adminer
