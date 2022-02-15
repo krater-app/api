@@ -1,0 +1,32 @@
+name: Profile CI
+
+on: 
+  push:
+    paths:
+      - "src/modules/profile/**"
+      - ".github/workflows/profile-ci.yaml"
+
+jobs:
+  linter:
+    name: Linting
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./src/modules/profile
+    strategy:
+      matrix:
+        node-version: [14.x]
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - uses: actions/cache@v2
+        with:
+          path: '**/node_modules'
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+      - name: Install packages
+        if: steps.npm-cache.outputs.cache-hit != 'true'
+        run: npx @microsoft/rush install
+      - name: Run Lint
+        run: npm run lint
