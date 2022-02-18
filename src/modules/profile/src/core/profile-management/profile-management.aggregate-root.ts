@@ -8,17 +8,24 @@ interface ProfileManagementProps {
   settings: ProfileSettings;
 }
 
+interface CreateNewProfileManagement {
+  accountId: string;
+}
+
 export class ProfileManagement extends AggregateRoot<ProfileManagementProps> {
   private constructor(props: ProfileManagementProps, id?: UniqueEntityID) {
     super(props, id);
   }
 
-  public static createNew() {
-    return new ProfileManagement({
-      avatar: Avatar.createNew(),
-      description: null,
-      settings: ProfileSettings.createNew(),
-    });
+  public static createNew({ accountId }: CreateNewProfileManagement) {
+    return new ProfileManagement(
+      {
+        avatar: Avatar.createNew(),
+        description: null,
+        settings: ProfileSettings.createNew(),
+      },
+      new UniqueEntityID(accountId),
+    );
   }
 
   public toJSON() {
@@ -27,6 +34,7 @@ export class ProfileManagement extends AggregateRoot<ProfileManagementProps> {
       avatar: {
         url: this.props.avatar.getUrl(),
       },
+      description: this.props.description,
       settings: {
         newMessagesSubscription: this.props.settings.isNewMessagesSubscriptionActive(),
         newNotificationsSubscription: this.props.settings.isNewNotificationsSubscriptionActive(),
